@@ -18,7 +18,8 @@ namespace zlt {
 
   template<class T, class U>
   static inline constexpr size_t offsetOf(T U::*m) noexcept {
-    return (size_t) ((T *) nullptr)->*m;
+    U *u = nullptr;
+    return (size_t) &(u->*m);
   }
 
   template<class U, class T>
@@ -28,7 +29,7 @@ namespace zlt {
 
   template<class U, class T>
   static inline constexpr const U &containerOf(const T &t, T U::*m) noexcept {
-    return *(const U *) ((void *) &t - offsetOf(m));
+    return *(const U *) ((const void *) &t - offsetOf(m));
   }
 
   static inline void memSwap(void *a, void *b, size_t size) noexcept {

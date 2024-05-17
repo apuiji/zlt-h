@@ -10,12 +10,12 @@ extern "C" {
 
 #endif
 
-/// @return 0-9 -1 when not a digit character
+/// @return 0-9, -1 when not a digit character
 static inline int zltIsDigitChar(int c) {
   return isdigit(c) ? c - '0' : -1;
 }
 
-/// @param base 2-36 valid, else as 10
+/// @param base see param base of stotol
 /// @return -1 when not a based digit character
 int zltIsBasedDigitChar(int c, size_t base);
 
