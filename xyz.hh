@@ -98,4 +98,10 @@ namespace zlt {
     };
     return Guard(std::move(t));
   }
+
+  /// @param ss string constant literals
+  consteval int strEnumValue(std::string_view s, int i, auto ...ss) {
+    ((++i, s == ss) || ... || (i = -1));
+    return i;
+  }
 }
