@@ -10,14 +10,9 @@ extern "C" {
 
 #endif
 
-/// @return 0-9, -1 when not a digit character
-static inline int zltIsDigitChar(int c) {
-  return isdigit(c) ? c - '0' : -1;
-}
-
 /// @param base see param base of stotol
 /// @return -1 when not a based digit character
-int zltIsBasedDigitChar(int c, size_t base);
+int zltIsDigitChar(int c, size_t base);
 
 typedef struct {
   char *data;
@@ -35,7 +30,7 @@ static inline zltString zltStrMakeBE(const char *begin, const char *end) {
 }
 
 /// @param data requires string constant literal
-#define zltStrMakeStatic(data) zltStrMake(data, sizeof(data))
+#define zltStrMakeStatic(data) zltStrMake(data, sizeof(data) - 1)
 
 static inline zltString zltStrForward(zltString src, int n) {
   return zltStrMake(src.data + n, src.size - n);
@@ -56,7 +51,7 @@ zltString zltStrToLong(long *dest, zltString src, size_t base);
 /// different of stdlib strtoul,match /^[[:base-n-digit:]]+/, ignore bads like out of range
 /// @param[out] dest usually initialized by 0
 /// @return left contents
-zltString zltStrToUnsignedLong(unsigned long *dest, zltString src, size_t base);
+zltString zltStrToULong(unsigned long *dest, zltString src, size_t base);
 
 /// different of stdlib strtod, match /^[+-]?(\d+\.\d*|\.\d+)([Ee][+-]?\d+)?/, ignore bads like out of range
 /// @param[out] dest usually initialized by 0
@@ -66,7 +61,7 @@ zltString zltStrToDouble(double *dest, zltString src);
 /// different of stdlib strtod, match /^(\d+\.\d*|\.\d+)([Ee][+-]?\d+)?/, no signer character, ignore bads like out of range
 /// @param[out] dest usually initialized by 0
 /// @return left contents
-zltString zltStrToUnsignedDouble(double *dest, zltString src);
+zltString zltStrToUDouble(double *dest, zltString src);
 
 #ifdef __cplusplus
 

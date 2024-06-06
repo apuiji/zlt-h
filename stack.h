@@ -24,8 +24,8 @@ static inline zltStack zltStackMake(void *data, size_t size) {
 
 /// @param[out] dest requires not null
 /// @param k requires not null and stored data size greater than param size
-static inline void zltStackPeek(void *dest, size_t size, const void *k) {
-  memcpy(dest, zltStackMemb(k, top) - size, size);
+static inline void *zltStackPeek(const void *k, size_t size) {
+  return zltStackMemb(k, top) - size;
 }
 
 /// @param k requires not null
