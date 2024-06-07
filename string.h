@@ -43,24 +43,30 @@ static inline zltString zltStrTrim(zltString str) {
   return zltStrTrimEnd(zltStrTrimStart(str));
 }
 
-/// different of stdlib strtol, match /^[+-]?[[:base-n-digit:]]+/, ignore bads like out of range
-/// @param[out] dest usually initialized by 0
-/// @return left contents
-zltString zltStrToLong(long *dest, zltString src, size_t base);
+typedef zltString zltStrToULongFn(unsigned long *dest, zltString src, size_t base);
 
-/// different of stdlib strtoul,match /^[[:base-n-digit:]]+/, ignore bads like out of range
+/// match /^[+-]?{{toULong}}/
+/// @return left contents after parse
+zltString zltStrToLong(long *dest, zltString src, size_t base, zltStrToULongFn *toULong);
+
+/// different of stdlib strtoul below
+///   - match /^[[:base-n-digit:]]+/
+///   - ignore bads like out-of-range
 /// @param[out] dest usually initialized by 0
-/// @return left contents
+/// @return left contents after parse
 zltString zltStrToULong(unsigned long *dest, zltString src, size_t base);
 
-/// different of stdlib strtod, match /^[+-]?(\d+\.\d*|\.\d+)([Ee][+-]?\d+)?/, ignore bads like out of range
-/// @param[out] dest usually initialized by 0
-/// @return left contents
-zltString zltStrToDouble(double *dest, zltString src);
+typedef zltString zltStrToUDoubleFn(double *dest, zltString src);
 
-/// different of stdlib strtod, match /^(\d+\.\d*|\.\d+)([Ee][+-]?\d+)?/, no signer character, ignore bads like out of range
+/// match /^[+-]?{{toUDouble}}/
+/// @return left contents after parse
+zltString zltStrToDouble(double *dest, zltString src, zltStrToUDoubleFn *toUDouble);
+
+/// different of stdlib strtod below
+///   - match /^(\d+\.\d*|\.\d+)([Ee][+-]?\d+)?/
+///   - ignore bads like out-of-range
 /// @param[out] dest usually initialized by 0
-/// @return left contents
+/// @return left contents after parse
 zltString zltStrToUDouble(double *dest, zltString src);
 
 #ifdef __cplusplus
