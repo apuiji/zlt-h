@@ -16,6 +16,14 @@ typedef struct {
   void *rchd;
 } zlt23Tree;
 
+#define zlt23TreeMemb(p, m) zltMemb(p, zlt23Tree, m)
+
+static inline zlt23Tree zlt23TreeMake(const void *parent) {
+  return (zlt23Tree) { .parent = parent };
+}
+
+
+
 void *zlt23TreeMostSide
 
 #ifdef __cplusplus
