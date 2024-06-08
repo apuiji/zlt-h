@@ -14,7 +14,8 @@ extern "C" {
 #define zltInvSize ((size_t) -1)
 #define zltInvPtr ((void *) -1)
 
-#define zltMemb(p, t, m) (((t *) (p))->m)
+#define zltPointTo(p, t) (*(t *) (p))
+#define zltMemb(p, t, m) (zltAs(p, t).m)
 #define zltOffsetOf(t, m) ((size_t) &zltMemb(NULL, t, m))
 #define zltContainerOf(p, t, m) ((t *) ((char *) (p) - zltOffsetOf(t, m)))
 

@@ -30,6 +30,9 @@ void zltRBTreeAfterInsert(void **root, void *node);
 void zltRBTreeBeforeErase(void **root, void *node);
 void zltRBTreeErase(void **root, void *node);
 
+/// @return erased node
+void *zltRBTreeFindAndErase(void **tree, zltBiTreeCmpForFind *cmp, const void *data);
+
 #ifdef __cplusplus
 
 }
