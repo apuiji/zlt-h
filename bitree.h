@@ -65,6 +65,10 @@ static inline void *zltBiTreeNRL(const void *tree) {
 /// @param xy 0 LNR, 1 RNL
 void *zltBiTreeXNY(const void *tree, int xy);
 
+static inline void *zltBiTreeXNYBegin(const void *tree, int xy) {
+  return zltBiTreeMostSide(tree, xy);
+}
+
 static inline void *zltBiTreeLNR(const void *tree) {
   return zltBiTreeXNY(tree, 0);
 }
@@ -73,9 +77,21 @@ static inline void *zltBiTreeRNL(const void *tree) {
   return zltBiTreeXNY(tree, 1);
 }
 
+static inline void *zltBiTreeLNRBegin(const void *tree) {
+  return zltBiTreeXNYBegin(tree, 0);
+}
+
+static inline void *zltBiTreeRNLBegin(const void *tree) {
+  return zltBiTreeXNYBegin(tree, 1);
+}
+
 /// @param tree requires not null
 /// @param xy 0 LRN, 1 RLN
 void *zltBiTreeXYN(const void *tree, int xy);
+
+static inline void *zltBiTreeXYNBegin(const void *tree, int xy) {
+  return zltBiTreeMostSide(tree, xy);
+}
 
 static inline void *zltBiTreeLRN(const void *tree) {
   return zltBiTreeXYN(tree, 0);
@@ -83,6 +99,14 @@ static inline void *zltBiTreeLRN(const void *tree) {
 
 static inline void *zltBiTreeRLN(const void *tree) {
   return zltBiTreeXYN(tree, 1);
+}
+
+static inline void *zltBiTreeLRNBegin(const void *tree) {
+  return zltBiTreeXYNBegin(tree, 0);
+}
+
+static inline void *zltBiTreeRLNBegin(const void *tree) {
+  return zltBiTreeXYNBegin(tree, 1);
 }
 // iterators end
 

@@ -16,6 +16,9 @@ typedef struct {
   void *mchd;
   void *rchd;
   void *data[3];
+  void *datum0;
+  void *datum1;
+  void *datum2;
 } zlt23Tree;
 
 #define zlt23TreeMemb(p, m) zltMemb(p, zlt23Tree, m)
@@ -43,29 +46,42 @@ static inline void *zlt23TreeMostRight(const void *tree) {
   return zlt23TreeMostSide(tree, 2);
 }
 
-/// @param tree requires not null
-/// @param xy 0 NLR, 1 NRL
-void *zlt23TreeNXY(const void *tree, int xy);
+typedef struct {
+  const void *tree;
+  size_t *dataIndex;
+} zlt23TreeIter;
 
-/// @param tree requires not null
-/// @param xy 0
-void *zlt23TreeXNY(const void *tree, int xy);
+#define zlt23TreeIterMemb(p, m) zltMemb(p, zlt23TreeIter, m)
 
-/// @param tree requires not null
-/// @param xy 0 LRN, 1 RLN
-void *zlt23TreeXYN(const void *tree, int xy);
+/// @param lr 0 lr, 2 rl
+static inline zlt23TreeIter zlt23TreeIterBegin(const void *tree, int lr) {
+  return (zlt23TreeIter) { .tree = zlt23TreeMostSide(tree, lr), .dataIndex = lr };
+}
+
+static inline zlt23TreeIter zlt23TreeIterLRBegin(const void *tree) {
+  return zlt23TreeIterBegin(tree, 0);
+}
+
+static inline zlt23TreeIter zlt23TreeIterRLBegin(const void *tree) {
+  return zlt23TreeIterBegin(tree, 2);
+}
+
+/// @return data
+void *zlt23TreeIterLRNext(zlt23TreeIter *it);
+
+/// @return data
+void *zlt23TreeIterRLNext(zlt23TreeIter *it);
 // iterators end
 
 // find operations begin
-/// @return -2 goto left child, -1 found data[0], 0 goto middle child, 1 found data[1], 2 goto right child
 typedef int zlt23TreeCmpForFind(const void *a, const void *b);
 
-/// @param[out] tree found tree the data inside, requires not null, usually initialized by null
-void *zlt23TreeFind(void **tree, const void *root, zlt23TreeCmpForFind *cmp, const void *data);
+/// @return data
+void *zlt23TreeFind(const void *tree, zlt23TreeCmpForFind *cmp, const void *data);
 
-/// @param[out] tree found tree the data inside, requires not null, usually initialized by null
+/// @param tree requires not null
 /// @return insert slot
-void **zlt23TreeFindForInsert(void **tree, void *root, zlt23TreeCmpForFind *cmp, const void *data);
+void **zlt23TreeFindForInsert(void *tree, zlt23TreeCmpForFind *cmp, const void *data);
 // find operations end
 
 void zlt23TreeAfterInsert(void **root, void *tree);
