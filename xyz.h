@@ -11,6 +11,9 @@ extern "C" {
 
 #endif
 
+#define zltInvSize ((size_t) -1)
+#define zltInvPtr ((void *) -1)
+
 #define zltMemb(p, t, m) (((t *) (p))->m)
 #define zltOffsetOf(t, m) ((size_t) &zltMemb(NULL, t, m))
 #define zltContainerOf(p, t, m) ((t *) ((char *) (p) - zltOffsetOf(t, m)))
@@ -18,8 +21,6 @@ extern "C" {
 void zltMemSwap(void *a, void *b, size_t size);
 
 #define zltTypeAlloc(t) ((t *) malloc(sizeof(t)))
-
-static inline void *zltInvPtr = (void *) -1;
 
 #ifdef __cplusplus
 

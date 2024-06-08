@@ -32,6 +32,10 @@ static inline zltString zltStrMakeBE(const char *begin, const char *end) {
 /// @param data requires string constant literal
 #define zltStrMakeStatic(data) zltStrMake(data, sizeof(data) - 1)
 
+bool zltStrEq(zltString a, zltString b);
+
+int zltStrCmp(zltString a, zltString b);
+
 static inline zltString zltStrForward(zltString src, int n) {
   return zltStrMake(src.data + n, src.size - n);
 }
