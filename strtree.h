@@ -31,6 +31,9 @@ static inline void **zltStrTreeFindForInsert(void **parent, void **tree, zltStri
   return zltBiTreeFindForInsert(parent, tree, zltStrTreeCmpForFind, &value);
 }
 
+/// @return erased tree
+void *zltStrTreeErase(void **tree, zltString value);
+
 #ifdef __cplusplus
 
 }

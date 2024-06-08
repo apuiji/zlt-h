@@ -20,15 +20,18 @@ static inline zltSizeTree zltSizeTreeMake(const void *parent, size_t value) {
   return (zltSizeTree) { .rbTree = zltRBTreeMake(parent), .value = value };
 }
 
-int zltSizeTreeCmpForFind(size_t data, const void *tree);
+int zltSizeTreeCmpForFind(const void *value, const void *tree);
 
 static inline void *zltSizeTreeFind(const void *tree, size_t value) {
-  return zltBiTreeFind(tree, zltSizeTreeCmpForFind, value);
+  return zltBiTreeFind(tree, zltSizeTreeCmpForFind, &value);
 }
 
 static inline void **zltSizeTreeFindForInsert(void **parent, void **tree, size_t value) {
-  return zltBiTreeFindForInsert(parent, tree, zltSizeTreeCmpForFind, value);
+  return zltBiTreeFindForInsert(parent, tree, zltSizeTreeCmpForFind, &value);
 }
+
+/// @return erased tree
+void *zltSizeTreeErase(void **tree, size_t value);
 
 #ifdef __cplusplus
 

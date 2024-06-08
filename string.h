@@ -47,6 +47,7 @@ static inline zltString zltStrTrim(zltString str) {
   return zltStrTrimEnd(zltStrTrimStart(str));
 }
 
+// string to number operations begin
 typedef zltString zltStrToULongFn(unsigned long *dest, zltString src, size_t base);
 
 /// match /^[+-]?{{toULong}}/
@@ -72,6 +73,7 @@ zltString zltStrToDouble(double *dest, zltString src, zltStrToUDoubleFn *toUDoub
 /// @param[out] dest usually initialized by 0
 /// @return left contents after parse
 zltString zltStrToUDouble(double *dest, zltString src);
+// string to number operations end
 
 #ifdef __cplusplus
 
