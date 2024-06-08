@@ -6,6 +6,8 @@
 #include"xyz.h"
 
 namespace zlt {
+  static inline constexpr void *invPtr = (void *) -1;
+
   template<class T, class U>
   static inline constexpr T &memberOf(void *p, T U::*m) noexcept {
     return ((U *) p)->*m;

@@ -19,6 +19,8 @@ void zltMemSwap(void *a, void *b, size_t size);
 
 #define zltTypeAlloc(t) ((t *) malloc(sizeof(t)))
 
+static inline void *zltInvPtr = (void *) -1;
+
 #ifdef __cplusplus
 
 }
