@@ -4,11 +4,7 @@
 #include<ctype.h>
 #include"xyz.h"
 
-#ifdef __cplusplus
-
-extern "C" {
-
-#endif
+#include"zlt/ifcpp_begin.h"
 
 /// @param base see param base of stotol
 /// @return -1 when not a based digit character
@@ -34,7 +30,11 @@ static inline zltString zltStrMakeBE(const char *begin, const char *end) {
 
 bool zltStrEq(zltString a, zltString b);
 
+#define zltStrEqStatic(a, b) zltStrEq(a, zltStrMakeStatic(b))
+
 int zltStrCmp(zltString a, zltString b);
+
+#define zltStrCmpStatic(a, b) zltStrCmp(a, zltStrMakeStatic(b))
 
 static inline zltString zltStrForward(zltString src, int n) {
   return zltStrMake(src.data + n, src.size - n);
@@ -75,10 +75,6 @@ zltString zltStrToDouble(double *dest, zltString src, zltStrToUDoubleFn *toUDoub
 zltString zltStrToUDouble(double *dest, zltString src);
 // string to number operations end
 
-#ifdef __cplusplus
-
-}
-
-#endif
+#include"zlt/ifcpp_end.h"
 
 #endif
