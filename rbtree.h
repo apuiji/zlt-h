@@ -3,11 +3,7 @@
 
 #include"bitree.h"
 
-#ifdef __cplusplus
-
-extern "C" {
-
-#endif
+#include"ifcpp_begin.hh"
 
 typedef struct {
   zltBiTree biTree;
@@ -31,12 +27,8 @@ void zltRBTreeBeforeErase(void **root, void *node);
 void zltRBTreeErase(void **root, void *node);
 
 /// @return erased node
-void *zltRBTreeFindAndErase(void **tree, zltBiTreeCmpForFind *cmp, const void *data);
+void *zltRBTreeFindAndErase(void **root, zltBiTreeCmpForFind *cmp, const void *data);
 
-#ifdef __cplusplus
-
-}
-
-#endif
+#include"ifcpp_end.hh"
 
 #endif

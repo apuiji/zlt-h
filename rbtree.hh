@@ -32,4 +32,21 @@ namespace zlt::rbtree {
   static inline void erase(void *&root, void *node) noexcept {
     return zltRBTreeErase(&root, node);
   }
+
+  /// @see zltRBTreeFindAndErase
+  static inline void *findAndErase(void *&tree, bitree::ComparatorForFind *cmp, const void *data) noexcept {
+    return zltRBTreeFindAndErase(&tree, cmp, data);
+  }
+
+  /// @see zltRBTreeFindAndErase
+  template<class Cmp, class T>
+  void *findAndErase(void *&root, const Cmp &cmp, T &&t) noexcept {
+    void *node = bitree::find(root, cmp, std::forward<T>(t));
+    if (!node) {
+      return nullptr;
+    }
+    beforeErase(root, node);
+    erase(root, node);
+    return node;
+  }
 }

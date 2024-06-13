@@ -41,10 +41,35 @@ namespace zlt::bitree {
     return zltBiTreeMostSide(tree, side);
   }
 
+  /// @see zltBiTreeMostTop
+  static inline void *mostTop(const void *tree) noexcept {
+    return zltBiTreeMostTop(tree);
+  }
+
+  /// @see zltBiTreeMostLeft
+  static inline void *mostLeft(const void *tree) noexcept {
+    return zltBiTreeMostLeft(tree);
+  }
+
+  /// @see zltBiTreeMostRight
+  static inline void *mostRight(const void *tree) noexcept {
+    return zltBiTreeMostRight(tree);
+  }
+
   // iterators begin
   /// @see zltBiTreeNXY
   static inline void *nxy(const void *tree, int xy) noexcept {
     return zltBiTreeNXY(tree, xy);
+  }
+
+  /// @see zltBiTreeNLR
+  static inline void *nlr(const void *tree) noexcept {
+    return zltBiTreeNLR(tree);
+  }
+
+  /// @see zltBiTreeNRL
+  static inline void *nrl(const void *tree) noexcept {
+    return zltBiTreeNRL(tree);
   }
 
   /// @see zltBiTreeXNY
@@ -52,15 +77,75 @@ namespace zlt::bitree {
     return zltBiTreeXNY(tree, xy);
   }
 
+  /// @see zltBiTreeXNYBegin
+  static inline void *xnyBegin(const void *tree, int xy) noexcept {
+    return zltBiTreeXNYBegin(tree, xy);
+  }
+
+  /// @see zltBiTreeLNR
+  static inline void *lnr(const void *tree) noexcept {
+    return zltBiTreeLNR(tree);
+  }
+
+  /// @see zltBiTreeRNL
+  static inline void *rnl(const void *tree, int xy) noexcept {
+    return zltBiTreeRNL(tree);
+  }
+
+  /// @see zltBiTreeLNRBegin
+  static inline void *lnrBegin(const void *tree) noexcept {
+    return zltBiTreeLNRBegin(tree);
+  }
+
+  /// @see zltBiTreeRNLBegin
+  static inline void *rnlBegin(const void *tree) noexcept {
+    return zltBiTreeRNLBegin(tree);
+  }
+
   /// @see zltBiTreeXYN
   static inline void *xyn(const void *tree, int xy) noexcept {
     return zltBiTreeXYN(tree, xy);
+  }
+
+  /// @see zltBiTreeXYNBegin
+  static inline void *xynBegin(const void *tree, int xy) noexcept {
+    return zltBiTreeXYNBegin(tree, xy);
+  }
+
+  /// @see zltBiTreeLRN
+  static inline void *lrn(const void *tree) noexcept {
+    return zltBiTreeLRN(tree);
+  }
+
+  /// @see zltBiTreeRLN
+  static inline void *rln(const void *tree) noexcept {
+    return zltBiTreeRLN(tree);
+  }
+
+  /// @see zltBiTreeLRNBegin
+  static inline void *lrnBegin(const void *tree) noexcept {
+    return zltBiTreeLRNBegin(tree);
+  }
+
+  /// @see zltBiTreeRLNBegin
+  static inline void *rlnBegin(const void *tree) noexcept {
+    return zltBiTreeRLNBegin(tree);
   }
   // iterators end
 
   /// @see zltBiTreeRotate
   static inline void *rotate(void *tree, bool right) noexcept {
     return zltBiTreeRotate(tree, right);
+  }
+
+  /// @see zltBiTreeLRot
+  static inline void *lrot(void *tree) noexcept {
+    return zltBiTreeLRot(tree);
+  }
+
+  /// @see zltBiTreeRRot
+  static inline void *rrot(void *tree) noexcept {
+    return zltBiTreeRRot(tree);
   }
 
   // find operations begin
