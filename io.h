@@ -7,7 +7,7 @@
 #include"ifcpp_begin.h"
 
 /// ignore bad
-void zltFwriteStr(FILE *dest, zltString s);
+size_t zltFwriteStr(FILE *dest, zltString s);
 
 #include"ifcpp_end.h"
 
