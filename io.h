@@ -4,19 +4,11 @@
 #include<stdio.h>
 #include"string.h"
 
-#ifdef __cplusplus
-
-extern "C" {
-
-#endif
+#include"ifcpp_begin.h"
 
 /// ignore bad
-void zltFputs(FILE *dest, zltString s);
+void zltFwriteStr(FILE *dest, zltString s);
 
-#ifdef __cplusplus
-
-}
-
-#endif
+#include"ifcpp_end.h"
 
 #endif
