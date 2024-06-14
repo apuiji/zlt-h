@@ -6,8 +6,9 @@
 
 #include"ifcpp_begin.h"
 
-/// ignore bad
-size_t zltFwriteStr(FILE *dest, zltString s);
+static inline size_t zltFwriteStr(FILE *dest, zltString s) {
+  return fwrite(s.data, 1, s.size, dest);
+}
 
 #include"ifcpp_end.h"
 
