@@ -2,7 +2,6 @@
 
 #include<compare>
 #include<concepts>
-#include<memory>
 #include"xyz.h"
 
 namespace zlt {
@@ -88,18 +87,6 @@ namespace zlt {
   template<class T>
   static inline T remove(T &t) noexcept {
     return std::move(t);
-  }
-
-  template<std::invocable T>
-  static inline auto makeGuard(T &&t) noexcept {
-    struct Guard {
-      T t;
-      Guard(T &&t) noexcept: t(std::move(t)) {}
-      ~Guard() {
-        t();
-      }
-    };
-    return Guard(std::move(t));
   }
 
   /// @param ss string constant literals
