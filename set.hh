@@ -32,7 +32,7 @@ namespace zlt::set {
     ValueCompare(const Cmp &cmp) noexcept: cmp(cmp) {}
     template<class U>
     auto operator ()(U &&u, const void *tree) const noexcept {
-      return compare(std::forward<U>(u), member(tree, &Tree<T>::value));
+      return compare(std::forward<U>(u), memberOf(tree, &Tree<T>::value));
     }
   };
 }

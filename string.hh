@@ -45,7 +45,7 @@ namespace zlt {
 
 namespace zlt::string {
   /// @see zltStrMake
-  static inline String make(const char *data, size_t size) noexcept {
+  static inline String make(const char *data = nullptr, size_t size = 0) noexcept {
     return zltStrMake(data, size);
   }
 

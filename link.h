@@ -3,17 +3,17 @@
 
 #include"xyz.h"
 
-#ifdef __cplusplus
-
-extern "C" {
-
-#endif
+#include"ifcpp_begin.h"
 
 typedef struct {
   void *next;
 } zltLink;
 
 #define zltLinkMemb(p, m) zltMemb(p, zltLink, m)
+
+static inline zltLink zltLinkMake(const void *next) {
+  return (zltLink) { .next = (void *) next };
+}
 
 typedef void zltLinkDtor(void *link);
 
@@ -46,10 +46,10 @@ typedef struct {
 
 #define zltDbLinkMemb(p, m) zltMemb(p, zltDbLink, m)
 
-#ifdef __cplusplus
-
+static inline zltDbLink zltDbLinkMake(const void *next, const void *prev) {
+  return (zltDbLink) { .next = (void *) next, .prev = (void *) prev };
 }
 
-#endif
+#include"ifcpp_end.h"
 
 #endif

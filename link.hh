@@ -8,6 +8,10 @@ namespace zlt {
 }
 
 namespace zlt::link {
+  static inline Link make(const void *next = nullptr) noexcept {
+    return zltLinkMake(next);
+  }
+
   using Dtor = zltLinkDtor;
 
   static inline void clean(void *link, const void *end, Dtor *dtor) noexcept {
@@ -28,5 +32,11 @@ namespace zlt::link {
 
   static inline void *pop(void *&dest) noexcept {
     return zltLinkPop(&dest);
+  }
+}
+
+namespace zlt::dblink {
+  static inline DbLink make(const void *next = nullptr, const void *prev = nullptr) noexcept {
+    return zltDbLinkMake(next, prev);
   }
 }
