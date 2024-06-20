@@ -2,6 +2,7 @@
 
 #include<compare>
 #include<concepts>
+#include<cstdlib>
 #include"xyz.h"
 
 namespace zlt {
@@ -20,12 +21,12 @@ namespace zlt {
 
   template<class T, class U>
   static inline constexpr T &memberOf(void *p, T U::*m) noexcept {
-    return ((U *) p)->*m;
+    return pointTo<U>(p).*m;
   }
 
   template<class T, class U>
   static inline constexpr const T &memberOf(const void *p, T U::*m) noexcept {
-    return ((const U *) p)->*m;
+    return pointTo<U>(p).*m;
   }
 
   template<class T, class U>
@@ -63,27 +64,6 @@ namespace zlt {
 
   #endif
 
-  // type cast begin
-  template<class T, class ...U>
-  static constexpr bool isAnyOf = (std::is_same_v<T, U> || ...);
-
-  template<class T, class ...U>
-  concept AnyOf = isAnyOf<T, U...>;
-
-  template<class ...T>
-  struct Dynamicastable {
-    template<class U>
-    requires (std::is_pointer_v<U>)
-    bool operator ()(const U u) noexcept {
-      return u && (dynamic_cast<const T*>(u) || ...);
-    }
-    template<class U>
-    requires (!std::is_pointer_v<U>)
-    bool operator ()(const U &u) noexcept {
-      return operator ()(&u);
-    }
-  };
-
   /// overloaded function resolve
   template<class ...Args>
   struct OFR {
@@ -92,12 +72,23 @@ namespace zlt {
       return f;
     }
   };
-  // type cast end
 
-  template<class T>
-  static inline T remove(T &t) noexcept {
-    return std::move(t);
-  }
+  struct FreeGuard {
+    void *&value;
+    FreeGuard(void *&value) noexcept: value(value) {}
+    ~FreeGuard() noexcept {
+      free(value);
+    }
+  };
+
+  template<std::invocable DoSth>
+  struct Guard {
+    DoSth doSth;
+    Guard(DoSth &&doSth) noexcept: doSth(std::move(doSth)) {}
+    ~Guard() noexcept {
+      doSth();
+    }
+  };
 
   /// @param ss string constant literals
   consteval int strEnumValue(std::string_view s, int i, auto ...ss) {
