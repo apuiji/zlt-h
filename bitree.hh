@@ -36,6 +36,26 @@ namespace zlt::bitree {
     clean(rchd, dtor);
   }
 
+  template<class Dtor>
+  struct CleanGuard {
+    void *&tree;
+    Dtor dtor;
+    CleanGuard(void *&tree, Dtor &&dtor) noexcept: tree(tree), dtor(std::move(dtor)) {}
+    ~CleanGuard() noexcept {
+      clean(tree, dtor);
+    }
+  };
+
+  template<>
+  struct CleanGuard<Dtor> {
+    void *&tree;
+    Dtor *dtor;
+    CleanGuard(void *&tree, Dtor *dtor) noexcept: tree(tree), dtor(dtor) {}
+    ~CleanGuard() noexcept {
+      clean(tree, dtor);
+    }
+  };
+
   /// @see zltBiTreeMostSide
   static inline void *mostSide(const void *tree, int side) noexcept {
     return zltBiTreeMostSide(tree, side);
