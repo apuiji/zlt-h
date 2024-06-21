@@ -22,6 +22,7 @@ extern "C" {
 void zltMemSwap(void *a, void *b, size_t size);
 
 #define zltTypeAlloc(t) ((t *) malloc(sizeof(t)))
+#define zltTypeArrayAlloc(t, n) ((t *) calloc(n, sizeof(t)))
 
 #ifdef __cplusplus
 

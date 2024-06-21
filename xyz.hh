@@ -95,4 +95,14 @@ namespace zlt {
     ((++i, s == ss) || ... || (i = -1));
     return i;
   }
+
+  template<class T>
+  static inline T *typeAlloc() noexcept {
+    return (T *) malloc(sizeof(T));
+  }
+
+  template<class T>
+  static inline T *typeAlloc(size_t n) noexcept {
+    return (T *) calloc(n, sizeof(T));
+  }
 }

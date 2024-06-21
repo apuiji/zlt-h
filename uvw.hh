@@ -1,6 +1,5 @@
 #pragma once
 
-#include<cstdlib>
 #include<utility>
 
 namespace zlt {
@@ -23,11 +22,6 @@ namespace zlt {
       return operator ()(&u);
     }
   };
-
-  template<class T>
-  static inline T *neo() noexcept {
-    return (T *) malloc(sizeof(T));
-  }
 
   template<class T>
   static inline T remove(T &t) noexcept {

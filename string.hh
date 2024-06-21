@@ -4,7 +4,7 @@
 #include"xyz.hh"
 
 namespace zlt {
-  int isDigitChar(int c, size_t base) noexcept {
+  int isDigitChar(int c, size_t base = 10) noexcept {
     return zltIsDigitChar(c, base);
   }
 
