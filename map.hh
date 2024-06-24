@@ -40,13 +40,14 @@ namespace zlt::map {
 
 namespace zlt {
   template<class K, class T, class U, class Cmp = Compare>
-  static inline void *find(const Map<K, T> &map, U &&u, const Cmp &cmp = {}) noexcept {
-    return rbtree::find(map.root, map::KeyCompare<K, T>(cmp), std::forward<U>(u));
+  static inline map::Tree<K, T> *find(const Map<K, T> &map, U &&u, const Cmp &cmp = {}) noexcept {
+    return (map::Tree<K, T> *) rbtree::find(map.root, map::KeyCompare<K, T>(cmp), std::forward<U>(u));
   }
 
   template<class K, class T, class U, class Cmp = Compare>
-  static inline void *&findForInsert(void *&parent, Map<K, T> &map, U &&u, const Cmp &cmp = {}) noexcept {
-    return *rbtree::findForInsert(parent, map.root, map::KeyCompare<K, T>(cmp), std::forward<U>(u));
+  static inline map::Tree<K, T> *&findForInsert(void *&parent, Map<K, T> &map, U &&u, const Cmp &cmp = {}) noexcept {
+    void **a = rbtree::findForInsert(parent, map.root, map::KeyCompare<K, T>(cmp), std::forward<U>(u));
+    return pointTo<map::Tree<K, T> *>(a);
   }
 
   template<class K, class T>
@@ -55,8 +56,8 @@ namespace zlt {
   }
 
   template<class K, class T, class U, class Cmp = Compare>
-  void *findAndErase(Map<K, T> &map, U &&u, const Cmp &cmp = {}) noexcept {
-    void *node = find(map, std::forward<U>(u), cmp);
+  map::Tree<K, T> *findAndErase(Map<K, T> &map, U &&u, const Cmp &cmp = {}) noexcept {
+    auto node = find(map, std::forward<U>(u), cmp);
     if (!node) {
       return nullptr;
     }

@@ -39,13 +39,14 @@ namespace zlt::set {
 
 namespace zlt {
   template<class T, class U, class Cmp = Compare>
-  static inline void *find(const Set<T> &set, U &&u, const Cmp &cmp = {}) noexcept {
-    return bitree::find(set.root, set::ValueCompare<T, Cmp>(cmp), std::forward<U>(u));
+  static inline set::Tree<T> *find(const Set<T> &set, U &&u, const Cmp &cmp = {}) noexcept {
+    return (set::Tree<T> *) bitree::find(set.root, set::ValueCompare<T, Cmp>(cmp), std::forward<U>(u));
   }
 
   template<class T, class U, class Cmp = Compare>
-  static inline void *&findForInsert(void *&parent, Set<T> &set, U &&u, const Cmp &cmp = {}) noexcept {
-    return *bitree::findForInsert(parent, set.root, set::ValueCompare<T, Cmp>(cmp), std::forward<U>(u));
+  static inline set::Tree<T> *&findForInsert(void *&parent, Set<T> &set, U &&u, const Cmp &cmp = {}) noexcept {
+    void **a = bitree::findForInsert(parent, set.root, set::ValueCompare<T, Cmp>(cmp), std::forward<U>(u));
+    return pointTo<set::Tree<T> *>(a);
   }
 
   template<class T>
@@ -54,8 +55,8 @@ namespace zlt {
   }
 
   template<class T, class U, class Cmp = Compare>
-  void *findAndErase(Set<T> &set, U &&u, const Cmp &cmp = {}) noexcept {
-    void *node = find(set, std::forward<U>(u), cmp);
+  set::Tree<T> *findAndErase(Set<T> &set, U &&u, const Cmp &cmp = {}) noexcept {
+    auto node = find(set, std::forward<U>(u), cmp);
     if (!node) {
       return nullptr;
     }
