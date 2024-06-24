@@ -6,6 +6,16 @@
 
 #include"ifcpp_begin.h"
 
+#ifdef WIN32
+
+#define zltEOL "\r\n"
+
+#else
+
+#define zltEOL "\n"
+
+#endif
+
 static inline size_t zltFwriteStr(FILE *dest, zltString s) {
   return fwrite(s.data, 1, s.size, dest);
 }

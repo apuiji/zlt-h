@@ -2,6 +2,8 @@
 #include"string.hh"
 
 namespace zlt::io {
+  static inline constexpr auto eol = zltEOL;
+
   struct CloseGuard {
     FILE *&file;
     CloseGuard(FILE *&file) noexcept: file(file) {}
