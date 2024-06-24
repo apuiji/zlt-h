@@ -73,6 +73,17 @@ namespace zlt {
     }
   };
 
+  // guard operations begin
+  template<class Cleanup, class T>
+  struct CleanupGuard {
+    Cleanup cleanup;
+    T &value;
+    CleanupGuard(Cleanup &&cleanup, T &value) noexcept: cleanup(std::move(cleanup)), value(value) {}
+    ~CleanupGuard() noexcept {
+      cleanup(value);
+    }
+  };
+
   struct FreeGuard {
     void *&value;
     FreeGuard(void *&value) noexcept: value(value) {}
@@ -89,20 +100,22 @@ namespace zlt {
       doSth();
     }
   };
+  // guard operations end
 
   /// @param ss string constant literals
-  consteval int strEnumValue(std::string_view s, int i, auto ...ss) {
+  consteval int strEnumValue(std::string_view s, auto ...ss) {
+    int i = -1;
     ((++i, s == ss) || ... || (i = -1));
     return i;
   }
 
-  template<class T>
+  template<class T, size_t N = 1>
   static inline T *typeAlloc() noexcept {
-    return (T *) malloc(sizeof(T));
+    return (T *) malloc(sizeof(T) * N);
   }
 
   template<class T>
   static inline T *typeAlloc(size_t n) noexcept {
-    return (T *) calloc(n, sizeof(T));
+    return (T *) malloc(sizeof(T) * n);
   }
 }

@@ -5,11 +5,7 @@
 #include<stddef.h>
 #include<stdlib.h>
 
-#ifdef __cplusplus
-
-extern "C" {
-
-#endif
+#include"ifcpp_begin.h"
 
 #define zltInvSize ((size_t) -1)
 #define zltInvPtr ((void *) -1)
@@ -22,12 +18,8 @@ extern "C" {
 void zltMemSwap(void *a, void *b, size_t size);
 
 #define zltTypeAlloc(t) ((t *) malloc(sizeof(t)))
-#define zltTypeArrayAlloc(t, n) ((t *) calloc(n, sizeof(t)))
+#define zltTypeAllocN(t, n) ((t *) malloc(sizeof(t) * (n)))
 
-#ifdef __cplusplus
-
-}
-
-#endif
+#include"ifcpp_end.h"
 
 #endif
