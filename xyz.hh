@@ -102,13 +102,6 @@ namespace zlt {
   };
   // guard operations end
 
-  /// @param ss string constant literals
-  consteval int strEnumValue(std::string_view s, auto ...ss) {
-    int i = -1;
-    ((++i, s == ss) || ... || (i = -1));
-    return i;
-  }
-
   template<class T, size_t N = 1>
   static inline T *typeAlloc() noexcept {
     return (T *) malloc(sizeof(T) * N);
