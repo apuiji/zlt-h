@@ -28,8 +28,6 @@ static inline zltString zltStrMakeBE(const char *begin, const char *end) {
 /// @param data requires string constant literal
 #define zltStrMakeStatic(data) zltStrMake(data, sizeof(data) - 1)
 
-zltString zltStrClone(zltString str);
-
 bool zltStrEq(zltString a, zltString b);
 
 #define zltStrEqStatic(a, b) zltStrEq(a, zltStrMakeStatic(b))
