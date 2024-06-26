@@ -1,5 +1,8 @@
 #pragma once
 
+#include"stack.h"
+#include"xyz.hh"
+
 namespace zlt {
   using Stack = zltStack;
 }
@@ -9,14 +12,31 @@ namespace zlt::stack {
     return zltStackMake(data, size);
   }
 
-  template<class T>
-  static inline T &peek(const void *k) noexcept {
-    return zltStackPeek(k, sizeof(T));
+  static inline size_t size(const void *k) noexcept {
+    return zltStackSize(k);
+  }
+
+  static inline size_t capacity(const void *k) noexcept {
+    return zltStackCapacity(k);
+  }
+
+  static inline void *peek(const void *k, size_t size) noexcept {
+    return zltStackPeek(k, size);
   }
 
   template<class T>
-  static inline bool push(void *k, T &&t) noexcept {
-    return zltStackPush(k, &t, sizeof(T));
+  static inline T &peek(const void *k) noexcept {
+    return pointTo<T>(peek(k, sizeof(T)));
+  }
+
+  static inline void push(void *k, const void *data, size_t size) noexcept {
+    zltStackPush(k, data, size);
+  }
+
+  template<class T>
+  static inline void push(void *k, T &&t) noexcept {
+    using U = std::remove_reference_t<T>;
+    push(k, &t, sizeof(U));
   }
 
   static inline void pop(void *k, size_t size) noexcept {
@@ -28,7 +48,7 @@ namespace zlt::stack {
     pop(k, sizeof(T));
   }
 
-  static inline void reAlloc(void *k, size_t size) noexcept {
-    return zltStackRealloc(k, size);
+  static inline bool reCapacity(void *k, size_t capacity) noexcept {
+    return zltStackReCapacity(k, capacity);
   }
 }
