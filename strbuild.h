@@ -14,6 +14,10 @@ static inline bool zltStrBuildWriteStr(zltStack *dest, zltStack *buf, zltString 
 
 bool zltStrBuildFlush(zltStack *dest, zltStack *buf);
 
+static inline zltString zltStrBuildProd(const zltStack *k) {
+  return zltStrMake(k->data, zltStackSize(k));
+}
+
 #include"ifcpp_end.h"
 
 #endif

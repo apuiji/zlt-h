@@ -22,4 +22,8 @@ namespace zlt::strbuild {
   static inline bool flush(Stack &dest, Stack &buf) noexcept {
     return zltStrBuildFlush(&dest, &buf);
   }
+
+  static inline String product(const Stack &k) noexcept {
+    return zltStrBuildProd(&k);
+  }
 }
