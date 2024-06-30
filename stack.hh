@@ -1,6 +1,7 @@
 #pragma once
 
 #include"stack.h"
+#include"string.hh"
 #include"xyz.hh"
 
 namespace zlt {
@@ -37,6 +38,10 @@ namespace zlt::stack {
   static inline void push(void *k, T &&t) noexcept {
     using U = std::remove_reference_t<T>;
     push(k, &t, sizeof(U));
+  }
+
+  static inline void pushStr(void *k, const String &s) noexcept {
+    push(k, s.data, s.size);
   }
 
   static inline void pop(void *k, size_t size) noexcept {

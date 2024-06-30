@@ -2,6 +2,7 @@
 #define ZLT_STACK_H
 
 #include<string.h>
+#include"string.h"
 #include"xyz.h"
 
 #include"ifcpp_begin.h"
@@ -34,6 +35,10 @@ static inline void *zltStackPeek(const void *k, size_t size) {
 
 /// @param k requires not null
 void zltStackPush(void *k, const void *data, size_t size);
+
+static inline void zltStackPushStr(void *k, zltString str) {
+  zltStackPush(k, str.data, str.size);
+}
 
 /// @param k requires not null
 /// @param size requires less than param k left
