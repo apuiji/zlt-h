@@ -3,24 +3,18 @@
 
 #include"rbtree.h"
 
-#ifdef __cplusplus
-
-extern "C" {
-
-#endif
+#include"ifcpp_begin.h"
 
 typedef struct {
   zltRBTree rbTree;
   size_t value;
 } zltSizeTree;
 
-#define zltSizeTreeMemb(p, m) zltMemb(p, zltSizeTree, m)
-
-static inline zltSizeTree zltSizeTreeMake(const void *parent, size_t value) {
+static inline zltSizeTree zltSizeTreeMake(const zltBiTree *parent, size_t value) {
   return (zltSizeTree) { .rbTree = zltRBTreeMake(parent), .value = value };
 }
 
-int zltSizeTreeCmpForFind(const void *value, const void *tree);
+int zltSizeTreeCmpForFind(const void *value, const zltBiTree *tree);
 
 static inline void *zltSizeTreeFind(const void *tree, size_t value) {
   return zltBiTreeFind(tree, zltSizeTreeCmpForFind, &value);
@@ -34,10 +28,6 @@ static inline void *zltSizeTreeFindAndErase(void **tree, size_t value) {
   return zltRBTreeFindAndErase(tree, zltSizeTreeCmpForFind, &value);
 }
 
-#ifdef __cplusplus
-
-}
-
-#endif
+#include"ifcpp_end.h"
 
 #endif

@@ -10,24 +10,22 @@ typedef struct {
   bool red;
 } zltRBTree;
 
-#define zltRBTreeMemb(p, m) zltMemb(p, zltRBTree, m)
-
 // constructors and destructors begin
-static inline zltRBTree zltRBTreeMake(const void *parent) {
+static inline zltRBTree zltRBTreeMake(const zltBiTree *parent) {
   return (zltRBTree) { .biTree = zltBiTreeMake(parent), .red = true };
 }
 
 /// @param a requires not null
 /// @param b requires not null
-void zltRBTreeSwap(void **root, void *a, void *b);
+void zltRBTreeSwap(zltBiTree **root, zltRBTree *a, zltRBTree *b);
 // constructors and destructors end
 
-void zltRBTreeAfterInsert(void **root, void *node);
-void zltRBTreeBeforeErase(void **root, void *node);
-void zltRBTreeErase(void **root, void *node);
+void zltRBTreeAfterInsert(zltBiTree **root, zltRBTree *node);
+void zltRBTreeBeforeErase(zltBiTree **root, zltRBTree *node);
+void zltRBTreeErase(zltBiTree **root, zltRBTree *node);
 
 /// @return erased node
-void *zltRBTreeFindAndErase(void **root, zltBiTreeCmpForFind *cmp, const void *data);
+zltRBTree *zltRBTreeFindAndErase(zltBiTree **root, zltBiTreeCmpForFind *cmp, const void *data);
 
 #include"ifcpp_end.h"
 

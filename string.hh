@@ -9,38 +9,6 @@ namespace zlt {
   }
 
   using String = zltString;
-
-  // comparison begin
-  static inline bool operator ==(const String &a, const String &b) noexcept {
-    return zltStrEq(a, b);
-  }
-
-  static inline bool operator !=(const String &a, const String &b) noexcept {
-    return !(a == b);
-  }
-
-  static inline std::strong_ordering operator <=>(const String &a, const String &b) noexcept {
-    return zltStrCmp(a, b) <=> 0;
-  }
-
-  static inline bool operator <(const String &a, const String &b) noexcept {
-    return (a <=> b) == std::strong_ordering::less;
-  }
-
-  static inline bool operator >(const String &a, const String &b) noexcept {
-    return (a <=> b) == std::strong_ordering::greater;
-  }
-
-  static inline bool operator <=(const String &a, const String &b) noexcept {
-    auto c = a <=> b;
-    return c == std::strong_ordering::less || c == std::strong_ordering::equivalent;
-  }
-
-  static inline bool operator >=(const String &a, const String &b) noexcept {
-    auto c = a <=> b;
-    return c == std::strong_ordering::greater || c == std::strong_ordering::equivalent;
-  }
-  // comparison end
 }
 
 namespace zlt::string {
@@ -54,15 +22,18 @@ namespace zlt::string {
     return zltStrMakeBE(begin, end);
   }
 
-  /// @see zltStrMakeStatic
+  /// @see zltStrMakeSta
   template<size_t N>
   static inline constexpr String make(const char (&data)[N]) noexcept {
     return zltStrMake(data, N - 1);
   }
 
-  /// @see zltStrClone
-  static inline String clone(const String &s) noexcept {
-    return zltStrClone(s);
+  static inline constexpr bool equals(const String &a, const String &b) noexcept {
+    return zltStrEq(a, b);
+  }
+
+  static inline constexpr int compare(const String &a, const String &b) noexcept {
+    return zltStrCmp(a, b);
   }
 
   /// @see zltStrForward
@@ -136,5 +107,35 @@ namespace zlt::string {
       return s;
     }
     return toUDouble(dest, src);
+  }
+}
+
+namespace zlt::string::cmp_op {
+  static inline bool operator ==(const String &a, const String &b) noexcept {
+    return equals(a, b);
+  }
+
+  static inline bool operator !=(const String &a, const String &b) noexcept {
+    return !(a == b);
+  }
+
+  static inline std::strong_ordering operator <=>(const String &a, const String &b) noexcept {
+    return compare(a, b) <=> 0;
+  }
+
+  static inline bool operator <(const String &a, const String &b) noexcept {
+    return compare(a, b) < 0;
+  }
+
+  static inline bool operator >(const String &a, const String &b) noexcept {
+    return compare(a, b) > 0;
+  }
+
+  static inline bool operator <=(const String &a, const String &b) noexcept {
+    return compare(a, b) <= 0;
+  }
+
+  static inline bool operator >=(const String &a, const String &b) noexcept {
+    return compare(a, b) >= 0;
   }
 }

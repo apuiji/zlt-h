@@ -15,8 +15,6 @@ typedef struct {
   size_t size;
 } zltString;
 
-#define zltStrMemb(p, m) zltMemb(p, zltString, m)
-
 static inline zltString zltStrMake(const char *data, size_t size) {
   return (zltString) { .data = (char *) data, .size = size };
 }
@@ -26,15 +24,15 @@ static inline zltString zltStrMakeBE(const char *begin, const char *end) {
 }
 
 /// @param data requires string constant literal
-#define zltStrMakeStatic(data) zltStrMake(data, sizeof(data) - 1)
+#define zltStrMakeSta(data) zltStrMake(data, sizeof(data) - 1)
 
 bool zltStrEq(zltString a, zltString b);
 
-#define zltStrEqStatic(a, b) zltStrEq(a, zltStrMakeStatic(b))
+#define zltStrEqSta(a, b) zltStrEq(a, zltStrMakeSta(b))
 
 int zltStrCmp(zltString a, zltString b);
 
-#define zltStrCmpStatic(a, b) zltStrCmp(a, zltStrMakeStatic(b))
+#define zltStrCmpSta(a, b) zltStrCmp(a, zltStrMakeSta(b))
 
 static inline zltString zltStrForward(zltString src, int n) {
   return zltStrMake(src.data + n, src.size - n);

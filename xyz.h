@@ -10,9 +10,14 @@
 #define zltInvSize ((size_t) -1)
 #define zltInvPtr ((void *) -1)
 
-#define zltPointTo(p, t) (*(t *) (p))
-#define zltMemb(p, t, m) (zltPointTo(p, t).m)
-#define zltOffsetOf(t, m) ((size_t) &zltMemb(NULL, t, m))
+#define zltCast(v, t) ((t) (v))
+
+/// @param p pointer
+#define zltMemberOf(p, t, m) (zltCast(p, t *)->m)
+
+#define zltOffsetOf(t, m) ((size_t) &zltMemberOf(NULL, t, m))
+
+/// @param p pointer
 #define zltContainerOf(p, t, m) ((t *) ((char *) (p) - zltOffsetOf(t, m)))
 
 void zltMemSwap(void *a, void *b, size_t size);

@@ -3,138 +3,130 @@
 
 #include"xyz.h"
 
-#ifdef __cplusplus
+#include"ifcpp_begin.h"
 
-extern "C" {
+typedef struct zltBiTree zltBiTree;
 
-#endif
-
-typedef struct {
-  void *parent;
-  void *children[0];
-  void *lchd;
-  void *rchd;
-} zltBiTree;
-
-#define zltBiTreeMemb(p, m) zltMemb(p, zltBiTree, m)
+struct zltBiTree {
+  zltBiTree *parent;
+  zltBiTree *children[0];
+  zltBiTree *lchd;
+  zltBiTree *rchd;
+};
 
 // constructors and destructors begin
-static inline zltBiTree zltBiTreeMake(const void *parent) {
-  return (zltBiTree) { .parent = (void *) parent, .lchd = NULL, .rchd = NULL };
+static inline zltBiTree zltBiTreeMake(const zltBiTree *parent) {
+  return (zltBiTree) { .parent = parent };
 }
 
 /// @param a requires not null
 /// @param b requires not null
-void zltBiTreeSwap(void **root, void *a, void *b);
+void zltBiTreeSwap(zltBiTree **root, zltBiTree *a, zltBiTree *b);
 
 typedef void zltBiTreeDtor(void *tree);
 
-void zltBiTreeClean(void *tree, zltBiTreeDtor *dtor);
+void zltBiTreeClean(zltBiTree *tree, zltBiTreeDtor *dtor);
 // constructors and destructors end
 
 // iterators begin
 /// @param tree requires not null
 /// @param side -1 top, 0 left, 1 right
-void *zltBiTreeMostSide(const void *tree, int side);
+zltBiTree *zltBiTreeMostSide(const zltBiTree *tree, int side);
 
-static inline void *zltBiTreeMostTop(const void *tree) {
+static inline zltBiTree *zltBiTreeMostTop(const zltBiTree *tree) {
   return zltBiTreeMostSide(tree, -1);
 }
 
-static inline void *zltBiTreeMostLeft(const void *tree) {
+static inline zltBiTree *zltBiTreeMostLeft(const zltBiTree *tree) {
   return zltBiTreeMostSide(tree, 0);
 }
 
-static inline void *zltBiTreeMostRight(const void *tree) {
+static inline zltBiTree *zltBiTreeMostRight(const zltBiTree *tree) {
   return zltBiTreeMostSide(tree, 1);
 }
 
 /// @param tree requires not null
 /// @param xy 0 NLR, 1 NRL
-void *zltBiTreeNXY(const void *tree, int xy);
+zltBiTree *zltBiTreeNXY(const zltBiTree *tree, int xy);
 
-static inline void *zltBiTreeNLR(const void *tree) {
+static inline zltBiTree *zltBiTreeNLR(const zltBiTree *tree) {
   return zltBiTreeNXY(tree, 0);
 }
 
-static inline void *zltBiTreeNRL(const void *tree) {
+static inline zltBiTree *zltBiTreeNRL(const zltBiTree *tree) {
   return zltBiTreeNXY(tree, 1);
 }
 
 /// @param tree requires not null
 /// @param xy 0 LNR, 1 RNL
-void *zltBiTreeXNY(const void *tree, int xy);
+zltBiTree *zltBiTreeXNY(const zltBiTree *tree, int xy);
 
-static inline void *zltBiTreeXNYBegin(const void *tree, int xy) {
+static inline zltBiTree *zltBiTreeXNYBegin(const zltBiTree *tree, int xy) {
   return zltBiTreeMostSide(tree, xy);
 }
 
-static inline void *zltBiTreeLNR(const void *tree) {
+static inline zltBiTree *zltBiTreeLNR(const zltBiTree *tree) {
   return zltBiTreeXNY(tree, 0);
 }
 
-static inline void *zltBiTreeRNL(const void *tree) {
+static inline zltBiTree *zltBiTreeRNL(const zltBiTree *tree) {
   return zltBiTreeXNY(tree, 1);
 }
 
-static inline void *zltBiTreeLNRBegin(const void *tree) {
+static inline zltBiTree *zltBiTreeLNRBegin(const zltBiTree *tree) {
   return zltBiTreeXNYBegin(tree, 0);
 }
 
-static inline void *zltBiTreeRNLBegin(const void *tree) {
+static inline zltBiTree *zltBiTreeRNLBegin(const zltBiTree *tree) {
   return zltBiTreeXNYBegin(tree, 1);
 }
 
 /// @param tree requires not null
 /// @param xy 0 LRN, 1 RLN
-void *zltBiTreeXYN(const void *tree, int xy);
+zltBiTree *zltBiTreeXYN(const zltBiTree *tree, int xy);
 
-static inline void *zltBiTreeXYNBegin(const void *tree, int xy) {
+static inline zltBiTree *zltBiTreeXYNBegin(const zltBiTree *tree, int xy) {
   return zltBiTreeMostSide(tree, xy);
 }
 
-static inline void *zltBiTreeLRN(const void *tree) {
+static inline zltBiTree *zltBiTreeLRN(const zltBiTree *tree) {
   return zltBiTreeXYN(tree, 0);
 }
 
-static inline void *zltBiTreeRLN(const void *tree) {
+static inline zltBiTree *zltBiTreeRLN(const zltBiTree *tree) {
   return zltBiTreeXYN(tree, 1);
 }
 
-static inline void *zltBiTreeLRNBegin(const void *tree) {
+static inline zltBiTree *zltBiTreeLRNBegin(const zltBiTree *tree) {
   return zltBiTreeXYNBegin(tree, 0);
 }
 
-static inline void *zltBiTreeRLNBegin(const void *tree) {
+static inline zltBiTree *zltBiTreeRLNBegin(const zltBiTree *tree) {
   return zltBiTreeXYNBegin(tree, 1);
 }
 // iterators end
 
 /// @param tree requires not null and has child on side rightabout rotation
-void *zltBiTreeRotate(void *tree, bool right);
+zltBiTree *zltBiTreeRotate(zltBiTree *tree, bool right);
 
-static inline void *zltBiTreeLRot(void *tree) {
+static inline zltBiTree *zltBiTreeLRot(zltBiTree *tree) {
   return zltBiTreeRotate(tree, false);
 }
 
-static inline void *zltBiTreeRRot(void *tree) {
+static inline zltBiTree *zltBiTreeRRot(zltBiTree *tree) {
   return zltBiTreeRotate(tree, true);
 }
 
 // find operations begin
-typedef int zltBiTreeCmpForFind(const void *data, const void *tree);
+typedef int zltBiTreeCmpForFind(const void *data, const zltBiTree *tree);
 
-void *zltBiTreeFind(const void *tree, zltBiTreeCmpForFind *cmp, const void *data);
+zltBiTree *zltBiTreeFind(const zltBiTree *tree, zltBiTreeCmpForFind *cmp, const void *data);
 
 /// @param[out] parent parent node of inserted, requires not null, usually initialized by null
 /// @return insert slot
-void **zltBiTreeFindForInsert(void **parent, void **tree, zltBiTreeCmpForFind *cmp, const void *data);
+zltBiTree **zltBiTreeFindForInsert(zltBiTree **parent, zltBiTree **tree, zltBiTreeCmpForFind *cmp, const void *data);
 // find operations end
 
-#ifdef __cplusplus
-
-}
-
-#endif
+#include"ifcpp_end.h"
 
 #endif

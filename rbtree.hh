@@ -9,44 +9,44 @@ namespace zlt {
 
 namespace zlt::rbtree {
   /// @see zltRBTreeMake
-  static inline RBTree make(const void *parent) noexcept {
+  static inline RBTree make(const BiTree *parent) noexcept {
     return zltRBTreeMake(parent);
   }
 
   /// @see zltRBTreeSwap
-  static inline void swap(void *&root, void *a, void *b) noexcept {
+  static inline void swap(BiTree *&root, RBTree *a, RBTree *b) noexcept {
     zltRBTreeSwap(&root, a, b);
   }
 
   /// @see zltRBTreeAfterInsert
-  static inline void afterInsert(void *&root, void *node) noexcept {
+  static inline void afterInsert(BiTree *&root, RBTree *node) noexcept {
     zltRBTreeAfterInsert(&root, node);
   }
 
   /// @see zltRBTreeBeforeErase
-  static inline void beforeErase(void *&root, void *node) noexcept {
+  static inline void beforeErase(BiTree *&root, RBTree *node) noexcept {
     zltRBTreeBeforeErase(&root, node);
   }
 
   /// @see zltRBTreeErase
-  static inline void erase(void *&root, void *node) noexcept {
+  static inline void erase(BiTree *&root, RBTree *node) noexcept {
     return zltRBTreeErase(&root, node);
   }
 
   /// @see zltRBTreeFindAndErase
-  static inline void *findAndErase(void *&tree, bitree::ComparatorForFind *cmp, const void *data) noexcept {
-    return zltRBTreeFindAndErase(&tree, cmp, data);
+  static inline RBTree *findAndErase(BiTree *&root, bitree::ComparatorForFind *cmp, const void *data) noexcept {
+    return zltRBTreeFindAndErase(&root, cmp, data);
   }
 
   /// @see zltRBTreeFindAndErase
   template<class Cmp, class T>
-  void *findAndErase(void *&root, const Cmp &cmp, T &&t) noexcept {
-    void *node = bitree::find(root, cmp, std::forward<T>(t));
+  RBTree *findAndErase(BiTree *&root, const Cmp &cmp, T &&t) noexcept {
+    BiTree *node = bitree::find(root, cmp, std::forward<T>(t));
     if (!node) {
       return nullptr;
     }
-    beforeErase(root, node);
-    erase(root, node);
-    return node;
+    beforeErase(root, (zltRBTree *) node);
+    erase(root, (zltRBTree *) node);
+    return (zltRBTree *) node;
   }
 }

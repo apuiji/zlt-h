@@ -9,24 +9,14 @@ namespace zlt {
   static inline constexpr size_t invSize = zltInvSize;
   static inline constexpr void *invPtr = zltInvPtr;
 
-  template<class T>
-  static inline constexpr T &pointTo(void *p) noexcept {
-    return *(T *) p;
-  }
-
-  template<class T>
-  static inline constexpr const T &pointTo(const void *p) noexcept {
-    return *(const T *) p;
-  }
-
   template<class T, class U>
   static inline constexpr T &memberOf(void *p, T U::*m) noexcept {
-    return pointTo<U>(p).*m;
+    return reinterpret_cast<U *>(p)->*m;
   }
 
   template<class T, class U>
   static inline constexpr const T &memberOf(const void *p, T U::*m) noexcept {
-    return pointTo<U>(p).*m;
+    return reinterpret_cast<const U *>(p)->*m;
   }
 
   template<class T, class U>
