@@ -16,8 +16,8 @@ static inline zltSizeTree zltSizeTreeMake(const zltBiTree *parent, size_t value)
 
 int zltSizeTreeCmpForFind(const void *value, const zltBiTree *tree);
 
-static inline void *zltSizeTreeFind(const void *tree, size_t value) {
-  return zltBiTreeFind(tree, zltSizeTreeCmpForFind, &value);
+static inline zltSizeTree *zltSizeTreeFind(const void *tree, size_t value) {
+  return (zltSizeTree *) zltBiTreeFind(tree, zltSizeTreeCmpForFind, &value);
 }
 
 static inline void **zltSizeTreeFindForInsert(void **parent, void **tree, size_t value) {
