@@ -5,7 +5,7 @@
 namespace zlt {
   template<class T>
   struct Set {
-    zltBiTree *root;
+    BiTree *root;
   };
 }
 
@@ -17,7 +17,7 @@ namespace zlt::set {
   };
 
   template<class T>
-  static inline Tree<T> make(const BiTree *parent, const T &value = {}) {
+  static inline Tree<T> make(const BiTree *parent = nullptr, const T &value = {}) {
     return (Tree<T>) { .rbTree = rbtree::make(parent), .value = value };
   }
 

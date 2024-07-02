@@ -1,8 +1,6 @@
 #ifndef ZLT_LINK_H
 #define ZLT_LINK_H
 
-#include"xyz.h"
-
 #include"ifcpp_begin.h"
 
 typedef struct zltLink zltLink;
@@ -43,45 +41,6 @@ void zltLinkEraseUntil(zltLink **link, zltLink *end);
 static inline void zltLinkPop(zltLink **link) {
   zltLinkErase(link, *link);
 }
-
-typedef struct zltDbLink zltDbLink;
-
-struct zltDbLink {
-  zltDbLink *next;
-  zltDbLink *prev;
-};
-
-static inline zltDbLink zltDbLinkMake(const zltDbLink *next, const zltDbLink *prev) {
-  return (zltDbLink) { .next = (zltDbLink *) next, .prev = (zltDbLink *) prev };
-}
-
-/// @param link requires not null
-/// @param last requires not null
-void zltDbLinkInsertAfter(zltDbLink *dest, zltDbLink *link, zltDbLink *last);
-
-/// @param link requires not null
-void zltDbLinkInsertUntilAfter(zltDbLink *dest, zltDbLink *link, zltDbLink *end);
-
-static inline void zltDbLinkPushAfter(zltDbLink *dest, zltDbLink *link) {
-  zltDbLinkInsertAfter(dest, link, link);
-}
-
-/// @param link requires not null
-/// @param last requires not null
-void zltDbLinkInsertBefore(zltDbLink *dest, zltDbLink *link, zltDbLink *last);
-
-/// @param link requires not null
-void zltDbLinkInsertUntilBefore(zltDbLink *dest, zltDbLink *link, zltDbLink *end);
-
-static inline void zltDbLinkPushBefore(zltDbLink *dest, zltDbLink *link) {
-  zltDbLinkInsertBefore(dest, link, link);
-}
-
-void zltDbLinkErase(zltDbLink *link, zltDbLink *last);
-
-void zltDbLinkEraseUntil(zltDbLink *link, zltDbLink *end);
-
-static inline void zltDbLinkPop()
 
 #include"ifcpp_end.h"
 

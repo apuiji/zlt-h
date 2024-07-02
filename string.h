@@ -2,7 +2,7 @@
 #define ZLT_STRING_H
 
 #include<ctype.h>
-#include"xyz.h"
+#include<stdbool.h>
 
 #include"zlt/ifcpp_begin.h"
 

@@ -18,7 +18,7 @@ namespace zlt::map {
   };
 
   template<class K, class T>
-  static inline Tree<K, T> make(const BiTree *parent, const K &key = {}, const T &value = {}) {
+  static inline Tree<K, T> make(const BiTree *parent = nullptr, const K &key = {}, const T &value = {}) {
     return (Tree<K, T>) { .rbTree = rbtree::make(parent), .key = key, .value = value };
   }
 

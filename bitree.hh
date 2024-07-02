@@ -1,14 +1,13 @@
 #pragma once
 
 #include"bitree.h"
-#include"xyz.hh"
 
 namespace zlt {
   using BiTree = zltBiTree;
 }
 
 namespace zlt::bitree {
-  static inline auto make(const BiTree *parent) noexcept {
+  static inline auto make(const BiTree *parent = nullptr) noexcept {
     return zltBiTreeMake(parent);
   }
 
@@ -40,7 +39,7 @@ namespace zlt::bitree {
   struct CleanGuard {
     BiTree *&tree;
     Dtor dtor;
-    CleanGuard(BiTree *&tree, const Dtor &dtor) noexcept: tree(tree), dtor(dtor) {}
+    CleanGuard(BiTree *&tree, const Dtor &dtor): tree(tree), dtor(dtor) {}
     CleanGuard(BiTree *&tree, Dtor &&dtor) noexcept: tree(tree), dtor(std::move(dtor)) {}
     ~CleanGuard() noexcept {
       clean(tree, dtor);

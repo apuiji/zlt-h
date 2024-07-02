@@ -1,7 +1,7 @@
 #ifndef ZLT_BITREE_H
 #define ZLT_BITREE_H
 
-#include"xyz.h"
+#include<stdbool.h>
 
 #include"ifcpp_begin.h"
 

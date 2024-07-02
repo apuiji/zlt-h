@@ -8,35 +8,65 @@ namespace zlt {
 }
 
 namespace zlt::link {
-  static inline Link make(const void *next = nullptr) noexcept {
+  /// @see zltLinkMake
+  static inline Link make(const Link *next = nullptr) noexcept {
     return zltLinkMake(next);
   }
 
   using Dtor = zltLinkDtor;
 
-  static inline void clean(void *link, const void *end, Dtor *dtor) noexcept {
-    zltLinkClean(link, end, dtor);
+  /// @see zltLinkClean
+  static inline void clean(Link *link, Dtor *dtor) noexcept {
+    zltLinkClean(link, dtor);
   }
 
-  static inline void *&insert(void *&dest, void *link, void *last) noexcept {
-    return *zltLinkInsert(&dest, link, last);
+  template<class Dtor>
+  void clean(Link *link, Dtor &&dtor) noexcept {
+    while (link) {
+      auto next = link->next;
+      dtor(link);
+      link = next;
+    }
   }
 
-  static inline void *&push(void *&dest, void *link) noexcept {
-    return *zltLinkPush(&dest, link);
+  template<class Dtor>
+  struct CleanGuard {
+    Link *&link;
+    Dtor dtor;
+    CleanGuard(Link *&link, const Dtor &dtor): link(link), dtor(dtor) {}
+    CleanGuard(Link *&link, Dtor &&dtor) noexcept: link(link), dtor(std::move(dtor)) {}
+    ~CleanGuard() noexcept {
+      clean(link, dtor);
+    }
+  };
+
+  /// @see zltLinkInsert
+  static inline void insert(Link *&dest, Link *link, Link *last) noexcept {
+    zltLinkInsert(&dest, link, last);
   }
 
-  static inline void *erase(void *&dest, void *last) noexcept {
-    return zltLinkErase(&dest, last);
+  /// @see zltLinkInsertUntil
+  static inline void insertUntil(Link *&dest, Link *link, Link *end = nullptr) noexcept {
+    zltLinkInsertUntil(&dest, link, end);
   }
 
-  static inline void *pop(void *&dest) noexcept {
-    return zltLinkPop(&dest);
+  /// @see zltLinkPush
+  static inline void push(Link *&dest, Link *link) noexcept {
+    zltLinkPush(&dest, link);
   }
-}
 
-namespace zlt::dblink {
-  static inline DbLink make(const void *next = nullptr, const void *prev = nullptr) noexcept {
-    return zltDbLinkMake(next, prev);
+  /// @see zltLinkErase
+  static inline void erase(Link *&link, Link *last) noexcept {
+    zltLinkErase(&link, last);
+  }
+
+  /// @see zltLinkEraseUntil
+  static inline void eraseUntil(Link *&link, Link *end = nullptr) noexcept {
+    zltLinkEraseUntil(&link, end);
+  }
+
+  /// @see zltLinkPop
+  static inline void pop(Link *&link) noexcept {
+    zltLinkPop(&link);
   }
 }

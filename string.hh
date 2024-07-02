@@ -1,7 +1,6 @@
 #pragma once
 
 #include"string.h"
-#include"xyz.hh"
 
 namespace zlt {
   int isDigitChar(int c, size_t base = 10) noexcept {
@@ -28,10 +27,12 @@ namespace zlt::string {
     return zltStrMake(data, N - 1);
   }
 
+  /// @see zltStrEq
   static inline constexpr bool equals(const String &a, const String &b) noexcept {
     return zltStrEq(a, b);
   }
 
+  /// @see zltStrCmp
   static inline constexpr int compare(const String &a, const String &b) noexcept {
     return zltStrCmp(a, b);
   }

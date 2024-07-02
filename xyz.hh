@@ -35,6 +35,7 @@ namespace zlt {
     return *(const U *) ((const void *) &t - offsetOf(m));
   }
 
+  /// @see zltMemSwap
   static inline void memSwap(void *a, void *b, size_t size) noexcept {
     zltMemSwap(a, b, size);
   }
@@ -64,11 +65,12 @@ namespace zlt {
   };
 
   // guard operations begin
-  template<class Cleanup, class T>
+  template<class T, std::invocable<T &> Cleanup>
   struct CleanupGuard {
-    Cleanup cleanup;
     T &value;
-    CleanupGuard(Cleanup &&cleanup, T &value) noexcept: cleanup(std::move(cleanup)), value(value) {}
+    Cleanup cleanup;
+    CleanupGuard(T &value, const Cleanup &cleanup): value(value), cleanup(cleanup) {}
+    CleanupGuard(T &value, Cleanup &&cleanup) noexcept: value(value), cleanup(std::move(cleanup)) {}
     ~CleanupGuard() noexcept {
       cleanup(value);
     }
@@ -76,7 +78,8 @@ namespace zlt {
 
   struct FreeGuard {
     void *&value;
-    FreeGuard(void *&value) noexcept: value(value) {}
+    template<class T>
+    FreeGuard(T *&value) noexcept: value(reinterpret_cast<void *&>(value)) {}
     ~FreeGuard() noexcept {
       free(value);
     }
@@ -85,6 +88,7 @@ namespace zlt {
   template<std::invocable DoSth>
   struct Guard {
     DoSth doSth;
+    Guard(const DoSth &doSth): doSth(doSth) {}
     Guard(DoSth &&doSth) noexcept: doSth(std::move(doSth)) {}
     ~Guard() noexcept {
       doSth();
