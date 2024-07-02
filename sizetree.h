@@ -1,6 +1,7 @@
 #ifndef ZLT_SIZETREE_H
 #define ZLT_SIZETREE_H
 
+#include<stddef.h>
 #include"rbtree.h"
 
 #include"ifcpp_begin.h"

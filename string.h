@@ -3,6 +3,7 @@
 
 #include<ctype.h>
 #include<stdbool.h>
+#include<stddef.h>
 
 #include"zlt/ifcpp_begin.h"
 

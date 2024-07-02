@@ -13,43 +13,47 @@ namespace zlt::dblink {
   }
 
   /// @see zltDbLinkInsertAfter
-  void insertAfter(DbLink *dest, DbLink *link, DbLink *last) {
+  static inline void insertAfter(DbLink *dest, DbLink *link, DbLink *last) noexcept {
     zltDbLinkInsertAfter(dest, link, last);
   }
 
   /// @see zltDbLinkInsertUntilAfter
-  void insertUntilAfter(DbLink *dest, DbLink *link, zltDbLink *end);
-
-  /// @param dest requires not null
-  /// @param link requires not null
-  static inline void zltDbLinkPushAfter(zltDbLink *dest, zltDbLink *link) {
-    zltDbLinkInsertAfter(dest, link, link);
+  static inline void insertUntilAfter(DbLink *dest, DbLink *link, DbLink *end = nullptr) noexcept {
+    zltDbLinkInsertUntilAfter(dest, link, end);
   }
 
-  /// @param dest requires not null
-  /// @param link requires not null
-  /// @param last requires not null
-  void zltDbLinkInsertBefore(zltDbLink *dest, zltDbLink *link, zltDbLink *last);
-
-  /// @param dest requires not null
-  /// @param link requires not null
-  void zltDbLinkInsertUntilBefore(zltDbLink *dest, zltDbLink *link, zltDbLink *end);
-
-  /// @param dest requires not null
-  /// @param link requires not null
-  static inline void zltDbLinkPushBefore(zltDbLink *dest, zltDbLink *link) {
-    zltDbLinkInsertBefore(dest, link, link);
+  /// @see zltDbLinkPushAfter
+  static inline void pushAfter(DbLink *dest, DbLink *link) noexcept {
+    zltDbLinkPushAfter(dest, link);
   }
 
-  /// @param link requires not null
-  /// @param last requires not null
-  void zltDbLinkErase(zltDbLink *link, zltDbLink *last);
+  /// @see zltDbLinkInsertBefore
+  static inline void insertBefore(DbLink *dest, DbLink *link, DbLink *last) noexcept {
+    zltDbLinkInsertBefore(dest, link, last);
+  }
 
-  /// @param link requires not null
-  void zltDbLinkEraseUntil(zltDbLink *link, zltDbLink *end);
+  /// @see zltDbLinkInsertUntilBefore
+  static inline void insertUntilBefore(DbLink *dest, DbLink *link, DbLink *end = nullptr) noexcept {
+    zltDbLinkInsertUntilBefore(dest, link, end);
+  }
 
-  /// @param link requires not null
-  static inline void zltDbLinkPop(zltDbLink *link) {
-    zltDbLinkErase(link, link);
+  /// @see zltDbLinkPushBefore
+  static inline void pushBefore(DbLink *dest, DbLink *link) noexcept {
+    zltDbLinkPushBefore(dest, link);
+  }
+
+  /// @see zltDbLinkErase
+  static inline void erase(DbLink *link, DbLink *last) noexcept {
+    zltDbLinkErase(link, last);
+  }
+
+  /// @see zltDbLinkEraseUntil
+  static inline void eraseUntil(DbLink *link, DbLink *end = nullptr) noexcept {
+    zltDbLinkEraseUntil(link, end);
+  }
+
+  /// @see zltDbLinkPop
+  static inline void pop(DbLink *link) noexcept {
+    zltDbLinkPop(link);
   }
 }

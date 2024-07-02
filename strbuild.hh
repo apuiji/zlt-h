@@ -5,6 +5,7 @@
 #include"string.hh"
 
 namespace zlt::strbuild {
+  /// @see zltStrBuildWrite
   static inline bool write(Stack &dest, Stack &buf, const void *data, size_t size) noexcept {
     return zltStrBuildWrite(&dest, &buf, data, size);
   }
@@ -19,10 +20,12 @@ namespace zlt::strbuild {
     return write(dest, buf, str.data, str.size);
   }
 
+  /// @see zltStrBuildFlush
   static inline bool flush(Stack &dest, Stack &buf) noexcept {
     return zltStrBuildFlush(&dest, &buf);
   }
 
+  /// @see zltStrBuildProd
   static inline String product(const Stack &k) noexcept {
     return zltStrBuildProd(&k);
   }

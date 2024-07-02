@@ -1,6 +1,7 @@
 #ifndef ZLT_RBTREE_H
 #define ZLT_RBTREE_H
 
+#include<stdbool.h>
 #include"bitree.h"
 
 #include"ifcpp_begin.h"
