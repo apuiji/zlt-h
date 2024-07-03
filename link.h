@@ -17,13 +17,15 @@ typedef void zltLinkDtor(void *link);
 
 void zltLinkClean(zltLink *link, zltLinkDtor *dtor);
 
-/// @param link requires not null
-/// @param last requires not null
-void zltLinkInsert(zltLink **dest, zltLink *link, zltLink *last);
+/// @return the node which next is param end
+zltLink *zltLinkFindUntil(const zltLink *link, const zltLink *end);
 
 /// @param link requires not null
-/// @return next slot of last inserted
-zltLink **zltLinkInsertUntil(zltLink **dest, zltLink *link, zltLink *end);
+/// @param last requires not null
+static inline void zltLinkInsert(zltLink **dest, zltLink *link, zltLink *last) {
+  last->next = *dest;
+  *dest = link;
+}
 
 /// @param link requires not null
 static inline void zltLinkPush(zltLink **dest, zltLink *link) {
@@ -32,10 +34,10 @@ static inline void zltLinkPush(zltLink **dest, zltLink *link) {
 
 /// @param link requires not empty
 /// @param last requires not null
-void zltLinkErase(zltLink **link, zltLink *last);
-
-/// @param link requires not empty
-void zltLinkEraseUntil(zltLink **link, zltLink *end);
+static inline void zltLinkErase(zltLink **link, zltLink *last) {
+  *link = last->next;
+  last->next = NULL;
+}
 
 /// @param link requires not empty
 static inline void zltLinkPop(zltLink **link) {

@@ -40,14 +40,14 @@ namespace zlt::link {
     }
   };
 
+  /// @see zltLinkFindUntil
+  static inline Link *findUntil(const Link *link, const Link *end = nullptr) noexcept {
+    return zltLinkFindUntil(link, end);
+  }
+
   /// @see zltLinkInsert
   static inline void insert(Link *&dest, Link *link, Link *last) noexcept {
     zltLinkInsert(&dest, link, last);
-  }
-
-  /// @see zltLinkInsertUntil
-  static inline void insertUntil(Link *&dest, Link *link, Link *end = nullptr) noexcept {
-    zltLinkInsertUntil(&dest, link, end);
   }
 
   /// @see zltLinkPush
@@ -58,11 +58,6 @@ namespace zlt::link {
   /// @see zltLinkErase
   static inline void erase(Link *&link, Link *last) noexcept {
     zltLinkErase(&link, last);
-  }
-
-  /// @see zltLinkEraseUntil
-  static inline void eraseUntil(Link *&link, Link *end = nullptr) noexcept {
-    zltLinkEraseUntil(&link, end);
   }
 
   /// @see zltLinkPop
