@@ -16,7 +16,7 @@ struct zltBiTree {
 
 // constructors and destructors begin
 static inline zltBiTree zltBiTreeMake(const zltBiTree *parent) {
-  return (zltBiTree) { .parent = parent };
+  return (zltBiTree) { .parent = (zltBiTree *) parent };
 }
 
 /// @param a requires not null
