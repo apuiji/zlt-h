@@ -1,6 +1,8 @@
 #ifndef ZLT_LINK_H
 #define ZLT_LINK_H
 
+#include<stddef.h>
+
 #include"ifcpp_begin.h"
 
 typedef struct zltLink zltLink;
