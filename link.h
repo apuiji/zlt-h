@@ -1,55 +1,51 @@
 #ifndef ZLT_LINK_H
 #define ZLT_LINK_H
 
-#include"xyz.h"
+#include<stddef.h>
 
-#ifdef __cplusplus
+#include"ifcpp_begin.h"
 
-extern "C" {
+typedef struct zltLink zltLink;
 
-#endif
+struct zltLink {
+  zltLink *next;
+};
 
-typedef struct {
-  void *next;
-} zltLink;
-
-#define zltLinkMemb(p, m) zltMemb(p, zltLink, m)
+static inline zltLink zltLinkMake(const zltLink *next) {
+  return (zltLink) { .next = (zltLink *) next };
+}
 
 typedef void zltLinkDtor(void *link);
 
-void zltLinkClean(void *link, const void *end, zltLinkDtor *dtor);
+void zltLinkClean(zltLink *link, zltLinkDtor *dtor);
+
+/// @return the node which next is param end
+zltLink *zltLinkFindUntil(const zltLink *link, const zltLink *end);
 
 /// @param link requires not null
 /// @param last requires not null
-/// @return next slot of param last
-void **zltLinkInsert(void **dest, void *link, void *last);
+static inline void zltLinkInsert(zltLink **dest, zltLink *link, zltLink *last) {
+  last->next = *dest;
+  *dest = link;
+}
 
 /// @param link requires not null
-/// @return next slot of param link
-static inline void **zltLinkPush(void **dest, void *link) {
-  return zltLinkInsert(dest, link, link);
+static inline void zltLinkPush(zltLink **dest, zltLink *link) {
+  zltLinkInsert(dest, link, link);
 }
 
 /// @param link requires not empty
 /// @param last requires not null
-void *zltLinkErase(void **link, void *last);
+static inline void zltLinkErase(zltLink **link, zltLink *last) {
+  *link = last->next;
+  last->next = NULL;
+}
 
 /// @param link requires not empty
-static inline void *zltLinkPop(void **link) {
-  return zltLinkErase(link, *link);
+static inline void zltLinkPop(zltLink **link) {
+  zltLinkErase(link, *link);
 }
 
-typedef struct {
-  void *next;
-  void *prev;
-} zltDbLink;
-
-#define zltDbLinkMemb(p, m) zltMemb(p, zltDbLink, m)
-
-#ifdef __cplusplus
-
-}
-
-#endif
+#include"ifcpp_end.h"
 
 #endif

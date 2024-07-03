@@ -4,37 +4,32 @@
 #include"rbtree.h"
 #include"string.h"
 
-#ifdef __cplusplus
-
-extern "C" {
-
-#endif
+#include"ifcpp_begin.h"
 
 typedef struct {
   zltRBTree rbTree;
   zltString value;
 } zltStrTree;
 
-#define zltStrTreeMemb(p, m) zltMemb(p, zltStrTree, m)
-
-static inline zltStrTree zltStrTreeMake(const void *parent, zltString value) {
+static inline zltStrTree zltStrTreeMake(const zltBiTree *parent, zltString value) {
   return (zltStrTree) { .rbTree = zltRBTreeMake(parent), .value = value };
 }
 
-int zltStrTreeCmpForFind(const void *data, const void *tree);
+int zltStrTreeCmpForFind(const void *data, const zltBiTree *tree);
 
-static inline void *zltStrTreeFind(const void *tree, zltString value) {
-  return zltBiTreeFind(tree, zltStrTreeCmpForFind, &value);
+static inline zltStrTree *zltStrTreeFind(const zltBiTree *tree, zltString value) {
+  return (zltStrTree *) zltBiTreeFind(tree, zltStrTreeCmpForFind, &value);
 }
 
-static inline void **zltStrTreeFindForInsert(void **parent, void **tree, zltString value) {
+static inline zltBiTree **zltStrTreeFindForInsert(zltBiTree **parent, zltBiTree **tree, zltString value) {
   return zltBiTreeFindForInsert(parent, tree, zltStrTreeCmpForFind, &value);
 }
 
-#ifdef __cplusplus
-
+/// @return erased node
+static inline zltStrTree *zltStrTreeFindAndErase(zltBiTree **root, zltString value) {
+  return (zltStrTree *) zltRBTreeFindAndErase(root, zltStrTreeCmpForFind, &value);
 }
 
-#endif
+#include"ifcpp_end.h"
 
 #endif

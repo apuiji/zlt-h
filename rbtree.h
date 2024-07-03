@@ -1,39 +1,33 @@
 #ifndef ZLT_RBTREE_H
 #define ZLT_RBTREE_H
 
+#include<stdbool.h>
 #include"bitree.h"
 
-#ifdef __cplusplus
-
-extern "C" {
-
-#endif
+#include"ifcpp_begin.h"
 
 typedef struct {
   zltBiTree biTree;
   bool red;
 } zltRBTree;
 
-#define zltRBTreeMemb(p, m) zltMemb(p, zltRBTree, m)
-
 // constructors and destructors begin
-static inline zltRBTree zltRBTreeMake(const void *parent) {
+static inline zltRBTree zltRBTreeMake(const zltBiTree *parent) {
   return (zltRBTree) { .biTree = zltBiTreeMake(parent), .red = true };
 }
 
 /// @param a requires not null
 /// @param b requires not null
-void zltRBTreeSwap(void **root, void *a, void *b);
+void zltRBTreeSwap(zltBiTree **root, zltRBTree *a, zltRBTree *b);
 // constructors and destructors end
 
-void zltRBTreeAfterInsert(void **root, void *node);
-void zltRBTreeBeforeErase(void **root, void *node);
-void zltRBTreeErase(void **root, void *node);
+void zltRBTreeAfterInsert(zltBiTree **root, zltRBTree *node);
+void zltRBTreeBeforeErase(zltBiTree **root, zltRBTree *node);
+void zltRBTreeErase(zltBiTree **root, zltRBTree *node);
 
-#ifdef __cplusplus
+/// @return erased node
+zltRBTree *zltRBTreeFindAndErase(zltBiTree **root, zltBiTreeCmpForFind *cmp, const void *data);
 
-}
-
-#endif
+#include"ifcpp_end.h"
 
 #endif

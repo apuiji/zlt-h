@@ -2,18 +2,21 @@
 
 #include<compare>
 #include<concepts>
-#include<memory>
+#include<cstdlib>
 #include"xyz.h"
 
 namespace zlt {
+  static inline constexpr size_t invSize = zltInvSize;
+  static inline constexpr void *invPtr = zltInvPtr;
+
   template<class T, class U>
   static inline constexpr T &memberOf(void *p, T U::*m) noexcept {
-    return ((U *) p)->*m;
+    return reinterpret_cast<U *>(p)->*m;
   }
 
   template<class T, class U>
   static inline constexpr const T &memberOf(const void *p, T U::*m) noexcept {
-    return ((const U *) p)->*m;
+    return reinterpret_cast<const U *>(p)->*m;
   }
 
   template<class T, class U>
@@ -32,6 +35,7 @@ namespace zlt {
     return *(const U *) ((const void *) &t - offsetOf(m));
   }
 
+  /// @see zltMemSwap
   static inline void memSwap(void *a, void *b, size_t size) noexcept {
     zltMemSwap(a, b, size);
   }
@@ -51,27 +55,6 @@ namespace zlt {
 
   #endif
 
-  // type cast begin
-  template<class T, class ...U>
-  static constexpr bool isAnyOf = (std::is_same_v<T, U> || ...);
-
-  template<class T, class ...U>
-  concept AnyOf = isAnyOf<T, U...>;
-
-  template<class ...T>
-  struct Dynamicastable {
-    template<class U>
-    requires (std::is_pointer_v<U>)
-    bool operator ()(const U u) noexcept {
-      return u && (dynamic_cast<const T*>(u) || ...);
-    }
-    template<class U>
-    requires (!std::is_pointer_v<U>)
-    bool operator ()(const U &u) noexcept {
-      return operator ()(&u);
-    }
-  };
-
   /// overloaded function resolve
   template<class ...Args>
   struct OFR {
@@ -80,22 +63,46 @@ namespace zlt {
       return f;
     }
   };
-  // type cast end
 
-  template<class T>
-  static inline T remove(T &t) noexcept {
-    return std::move(t);
+  // guard operations begin
+  template<class T, std::invocable<T &> Cleanup>
+  struct CleanupGuard {
+    T &value;
+    Cleanup cleanup;
+    CleanupGuard(T &value, const Cleanup &cleanup): value(value), cleanup(cleanup) {}
+    CleanupGuard(T &value, Cleanup &&cleanup) noexcept: value(value), cleanup(std::move(cleanup)) {}
+    ~CleanupGuard() noexcept {
+      cleanup(value);
+    }
+  };
+
+  struct FreeGuard {
+    void *&value;
+    template<class T>
+    FreeGuard(T *&value) noexcept: value(reinterpret_cast<void *&>(value)) {}
+    ~FreeGuard() noexcept {
+      free(value);
+    }
+  };
+
+  template<std::invocable DoSth>
+  struct Guard {
+    DoSth doSth;
+    Guard(const DoSth &doSth): doSth(doSth) {}
+    Guard(DoSth &&doSth) noexcept: doSth(std::move(doSth)) {}
+    ~Guard() noexcept {
+      doSth();
+    }
+  };
+  // guard operations end
+
+  template<class T, size_t N = 1>
+  static inline T *typeAlloc() noexcept {
+    return (T *) malloc(sizeof(T) * N);
   }
 
-  template<std::invocable T>
-  static inline auto makeGuard(T &&t) noexcept {
-    struct Guard {
-      T t;
-      Guard(T &&t) noexcept: t(std::move(t)) {}
-      ~Guard() {
-        t();
-      }
-    };
-    return Guard(std::move(t));
+  template<class T>
+  static inline T *typeAlloc(size_t n) noexcept {
+    return (T *) malloc(sizeof(T) * n);
   }
 }

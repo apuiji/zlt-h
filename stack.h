@@ -2,13 +2,9 @@
 #define ZLT_STACK_H
 
 #include<string.h>
-#include"xyz.h"
+#include"string.h"
 
-#ifdef __cplusplus
-
-extern "C" {
-
-#endif
+#include"ifcpp_begin.h"
 
 typedef struct {
   void *data;
@@ -16,37 +12,42 @@ typedef struct {
   size_t left;
 } zltStack;
 
-#define zltStackMemb(p, m) zltMemb(p, zltStack, m)
-
 static inline zltStack zltStackMake(void *data, size_t size) {
   return (zltStack) { .data = data, .top = data, .left = size };
 }
 
-/// @param[out] dest requires not null
+static inline size_t zltStackSize(const zltStack *k) {
+  return (char *) k->top - (char *) k->data;
+}
+
+static inline size_t zltStackCapacity(const zltStack *k) {
+  return zltStackSize(k) + k->left;
+}
+
 /// @param k requires not null and stored data size greater than param size
-static inline void zltStackPeek(void *dest, size_t size, const void *k) {
-  memcpy(dest, zltStackMemb(k, top) - size, size);
+static inline void *zltStackPeek(const zltStack *k, size_t size) {
+  return (char *) k->top - size;
 }
 
 /// @param k requires not null
-/// @return false when bad
-bool zltStackPush(void *k, const void *data, size_t size);
+void zltStackPush(zltStack *k, const void *data, size_t size);
+
+/// @param k requires not null
+static inline void zltStackPushStr(zltStack *k, zltString str) {
+  zltStackPush(k, str.data, str.size);
+}
 
 /// @param k requires not null
 /// @param size requires less than param k left
-static inline void zltStackPop(void *k, size_t size) {
-  zltStackMemb(k, top) -= size;
-  zltStackMemb(k, left) += size;
+static inline void zltStackPop(zltStack *k, size_t size) {
+  k->top -= size;
+  k->left += size;
 }
 
 /// @param k requires not null
 /// @return false when bad
-bool zltStackRealloc(zltStack *k, size_t size);
+bool zltStackReCapacity(zltStack *k, size_t capacity);
 
-#ifdef __cplusplus
-
-}
-
-#endif
+#include"ifcpp_end.h"
 
 #endif

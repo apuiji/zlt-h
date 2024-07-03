@@ -5,24 +5,26 @@
 #include<stddef.h>
 #include<stdlib.h>
 
-#ifdef __cplusplus
+#include"ifcpp_begin.h"
 
-extern "C" {
+#define zltInvSize ((size_t) -1)
+#define zltInvPtr ((void *) -1)
 
-#endif
+#define zltCast(v, t) ((t) (v))
 
-#define zltMemb(p, t, m) (((t *) (p))->m)
-#define zltOffsetOf(t, m) ((size_t) &zltMemb(NULL, t, m))
+/// @param p pointer
+#define zltMemberOf(p, t, m) (zltCast(p, t *)->m)
+
+#define zltOffsetOf(t, m) ((size_t) &zltMemberOf(NULL, t, m))
+
+/// @param p pointer
 #define zltContainerOf(p, t, m) ((t *) ((char *) (p) - zltOffsetOf(t, m)))
 
 void zltMemSwap(void *a, void *b, size_t size);
 
 #define zltTypeAlloc(t) ((t *) malloc(sizeof(t)))
+#define zltTypeAllocN(t, n) ((t *) malloc(sizeof(t) * (n)))
 
-#ifdef __cplusplus
-
-}
-
-#endif
+#include"ifcpp_end.h"
 
 #endif

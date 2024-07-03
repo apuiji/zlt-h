@@ -4,19 +4,22 @@
 #include<stdio.h>
 #include"string.h"
 
-#ifdef __cplusplus
+#include"ifcpp_begin.h"
 
-extern "C" {
+#ifdef WIN32
+
+#define zltEOL "\r\n"
+
+#else
+
+#define zltEOL "\n"
 
 #endif
 
-/// ignore bad
-void zltFputs(FILE *dest, zltString s);
-
-#ifdef __cplusplus
-
+static inline size_t zltFwriteStr(FILE *dest, zltString s) {
+  return fwrite(s.data, 1, s.size, dest);
 }
 
-#endif
+#include"ifcpp_end.h"
 
 #endif
