@@ -41,7 +41,7 @@ static inline void zltStackPop(void *k, size_t size) {
 
 /// @param k requires not null
 /// @return false when bad
-bool zltStackRealloc(void *k, size_t size);
+bool zltStackRealloc(zltStack *k, size_t size);
 
 #ifdef __cplusplus
 
