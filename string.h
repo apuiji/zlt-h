@@ -39,6 +39,10 @@ static inline zltString zltStrForward(zltString src, int n) {
   return zltStrMake(src.data + n, src.size - n);
 }
 
+static inline zltString zltStrEnd(zltString src) {
+  return zltStrMake(src.data + src.size, 0);
+}
+
 zltString zltStrTrimStart(zltString str);
 zltString zltStrTrimEnd(zltString str);
 

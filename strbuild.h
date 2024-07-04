@@ -6,11 +6,7 @@
 
 #include"ifcpp_begin.h"
 
-bool zltStrBuildWrite(zltStack *dest, zltStack *buf, const void *data, size_t size);
-
-static inline bool zltStrBuildWriteStr(zltStack *dest, zltStack *buf, zltString str) {
-  return zltStrBuildWrite(dest, buf, str.data, str.size);
-}
+zltString zltStrBuildWrite(zltStack *dest, zltStack *buf, zltString src);
 
 bool zltStrBuildFlush(zltStack *dest, zltStack *buf);
 
