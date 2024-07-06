@@ -4,6 +4,7 @@
 #include<ctype.h>
 #include<stdbool.h>
 #include<stddef.h>
+#include<string.h>
 
 #include"zlt/ifcpp_begin.h"
 
@@ -31,18 +32,27 @@ static inline zltString zltStrEnd(zltString src) {
   return zltStrMake(src.data + src.size, 0);
 }
 
-// comparisons begin
-bool zltStrEq(zltString a, zltString b);
-int zltStrCmp(zltString a, zltString b);
-bool zltStrStarts(zltString src, zltString starts);
-bool zltStrEnds(zltString src, zltString ends);
+static inline zltString zltStrEndBack(zltString src, size_t n) {
+  return zltStrMake(src.data + src.size - n, n);
+}
 
-// icase begin
-bool zltStrEqIcase(zltString a, zltString b);
-int zltStrCmpIcase(zltString a, zltString b);
-bool zltStrStartsIcase(zltString src, zltString starts);
-bool zltStrEndsIcase(zltString src, zltString ends);
-// icase end
+// comparisons begin
+/// usually strncmp or strncasecmp
+typedef int strncmpFn(const char *, const char *, size_t);
+
+static inline bool zltStrEq(zltString a, zltString b, strncmpFn *cmp) {
+  return a.size == b.size && !cmp(a.data, b.data, a.size);
+}
+
+int zltStrCmp(zltString a, zltString b, strncmpFn *cmp);
+
+static inline bool zltStrStartsWith(zltString src, zltString starts, strncmpFn *cmp) {
+  return src.size == starts.size && !cmp(src.data, starts.data, starts.size);
+}
+
+static inline bool zltStrEndsWith(zltString src, zltString ends, strncmpFn *cmp) {
+  return src.size == ends.size && !cmp(src.data + src.size - ends.size, ends.data, ends.size);
+}
 // comparisons end
 
 static inline zltString zltStrForward(zltString src, int n) {
@@ -56,8 +66,11 @@ static inline zltString zltStrTrim(zltString str) {
   return zltStrTrimEnd(zltStrTrimStart(str));
 }
 
-void zltStrToUpper(zltString dest, zltString src);
-void zltStrToLower(zltString dest, zltString src);
+/// usually toupper or tolower
+typedef int tocaseFn(int);
+
+void zltStrToCase(zltString dest, zltString src, tocaseFn *tocase);
+
 // string to number operations begin
 typedef zltString zltStrToULongFn(unsigned long *dest, zltString src, size_t base);
 

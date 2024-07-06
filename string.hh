@@ -23,18 +23,28 @@ namespace zlt::string {
 
   /// @see zltStrMakeSta
   template<size_t N>
-  static inline constexpr String make(const char (&data)[N]) noexcept {
+  static inline String make(const char (&data)[N]) noexcept {
     return zltStrMake(data, N - 1);
   }
 
   /// @see zltStrEq
-  static inline constexpr bool equals(const String &a, const String &b) noexcept {
-    return zltStrEq(a, b);
+  static inline bool equals(const String &a, const String &b, strncmpFn *cmp = strncmp) noexcept {
+    return zltStrEq(a, b, cmp);
   }
 
   /// @see zltStrCmp
-  static inline constexpr int compare(const String &a, const String &b) noexcept {
-    return zltStrCmp(a, b);
+  static inline int compare(const String &a, const String &b, strncmpFn *cmp = strncmp) noexcept {
+    return zltStrCmp(a, b, cmp);
+  }
+
+  /// @see zltStrStartsWith
+  static inline bool startsWith(const String &src, const String &starts, strncmpFn *cmp = strncmp) noexcept {
+    return zltStrStartsWith(src, starts, cmp);
+  }
+
+  /// @see zltStrEndsWith
+  static inline bool endsWith(const String &src, const String &ends, strncmpFn *cmp = strncmp) noexcept {
+    return zltStrEndsWith(src, ends, cmp);
   }
 
   /// @see zltStrForward
@@ -55,6 +65,15 @@ namespace zlt::string {
   /// @see zltStrTrim
   static inline String trim(const String &s) noexcept {
     return zltStrTrim(s);
+  }
+
+  /// @see zltStrToCase
+  static inline void toCase(String &dest, const String &src, tocaseFn *tocase) noexcept {
+    return zltStrToCase(dest, src, tocase);
+  }
+
+  static inline void toCase(String &s, tocaseFn *tocase) noexcept {
+    return zltStrToCase(s, s, tocase);
   }
 
   using ToULongFn = zltStrToULongFn;
