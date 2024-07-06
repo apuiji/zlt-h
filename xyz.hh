@@ -40,6 +40,12 @@ namespace zlt {
     zltMemSwap(a, b, size);
   }
 
+  template<class T, class ...U>
+  static constexpr bool isAnyOf = (std::is_same_v<T, U> || ...);
+
+  template<class T, class ...U>
+  concept AnyOf = isAnyOf<T, U...>;
+
   #ifdef __cpp_lib_three_way_comparison
 
   using Compare = std::compare_three_way;

@@ -27,20 +27,26 @@ static inline zltString zltStrMakeBE(const char *begin, const char *end) {
 /// @param data requires string constant literal
 #define zltStrMakeSta(data) zltStrMake(data, sizeof(data) - 1)
 
+static inline zltString zltStrEnd(zltString src) {
+  return zltStrMake(src.data + src.size, 0);
+}
+
+// comparisons begin
 bool zltStrEq(zltString a, zltString b);
-
-#define zltStrEqSta(a, b) zltStrEq(a, zltStrMakeSta(b))
-
 int zltStrCmp(zltString a, zltString b);
+bool zltStrStarts(zltString src, zltString starts);
+bool zltStrEnds(zltString src, zltString ends);
 
-#define zltStrCmpSta(a, b) zltStrCmp(a, zltStrMakeSta(b))
+// icase begin
+bool zltStrEqIcase(zltString a, zltString b);
+int zltStrCmpIcase(zltString a, zltString b);
+bool zltStrStartsIcase(zltString src, zltString starts);
+bool zltStrEndsIcase(zltString src, zltString ends);
+// icase end
+// comparisons end
 
 static inline zltString zltStrForward(zltString src, int n) {
   return zltStrMake(src.data + n, src.size - n);
-}
-
-static inline zltString zltStrEnd(zltString src) {
-  return zltStrMake(src.data + src.size, 0);
 }
 
 zltString zltStrTrimStart(zltString str);
@@ -50,6 +56,8 @@ static inline zltString zltStrTrim(zltString str) {
   return zltStrTrimEnd(zltStrTrimStart(str));
 }
 
+void zltStrToUpper(zltString dest, zltString src);
+void zltStrToLower(zltString dest, zltString src);
 // string to number operations begin
 typedef zltString zltStrToULongFn(unsigned long *dest, zltString src, size_t base);
 
