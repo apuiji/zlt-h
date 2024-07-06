@@ -53,6 +53,9 @@ static inline bool zltStrStartsWith(zltString src, zltString starts, strncmpFn *
 static inline bool zltStrEndsWith(zltString src, zltString ends, strncmpFn *cmp) {
   return src.size == ends.size && !cmp(src.data + src.size - ends.size, ends.data, ends.size);
 }
+
+/// @return count of same content between param a and param b
+size_t zltStrSame(zltString a, zltString b);
 // comparisons end
 
 static inline zltString zltStrForward(zltString src, int n) {

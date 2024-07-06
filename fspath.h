@@ -15,6 +15,8 @@
 
 #endif
 
+#define zltFsPathSepLeng (sizeof(zltFsPathSep) - 1)
+
 zltString zltFsPathParent(zltString path);
 zltString zltFsPathName(zltString path);
 zltString zltFsPathCanonical(zltString path);
