@@ -17,6 +17,7 @@ typedef struct {
   size_t size;
 } zltString;
 
+// make operations begin
 static inline zltString zltStrMake(const char *data, size_t size) {
   return (zltString) { .data = (char *) data, .size = size };
 }
@@ -27,6 +28,7 @@ static inline zltString zltStrMakeBE(const char *begin, const char *end) {
 
 /// @param data requires string constant literal
 #define zltStrMakeSta(data) zltStrMake(data, sizeof(data) - 1)
+// make operations end
 
 static inline zltString zltStrEnd(zltString src) {
   return zltStrMake(src.data + src.size, 0);
@@ -34,6 +36,10 @@ static inline zltString zltStrEnd(zltString src) {
 
 static inline zltString zltStrEndBack(zltString src, size_t n) {
   return zltStrMake(src.data + src.size - n, n);
+}
+
+static inline zltString zltStrForward(zltString src, int n) {
+  return zltStrMake(src.data + n, src.size - n);
 }
 
 // comparisons begin
@@ -58,16 +64,21 @@ static inline bool zltStrEndsWith(zltString src, zltString ends, strncmpFn *cmp)
 size_t zltStrSame(zltString a, zltString b);
 // comparisons end
 
-static inline zltString zltStrForward(zltString src, int n) {
-  return zltStrMake(src.data + n, src.size - n);
-}
-
+// trim operations begin
 zltString zltStrTrimStart(zltString str);
 zltString zltStrTrimEnd(zltString str);
 
 static inline zltString zltStrTrim(zltString str) {
   return zltStrTrimEnd(zltStrTrimStart(str));
 }
+// trim operations end
+
+// find operations begin
+typedef bool zltStrPredForFind(zltString src);
+
+zltString zltStrFindIf(zltString src, zltStrPredForFind *pred);
+zltString zltStrRevFindIf(zltString src, zltStrPredForFind *pred);
+// find operations end
 
 /// usually toupper or tolower
 typedef int tocaseFn(int);
