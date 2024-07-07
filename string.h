@@ -61,7 +61,7 @@ static inline bool zltStrEndsWith(zltString src, zltString ends, strncmpFn *cmp)
 }
 
 /// @return count of same content between param a and param b
-size_t zltStrSame(zltString a, zltString b);
+size_t zltStrSame(zltString a, zltString b, strncmpFn *cmp);
 // comparisons end
 
 // trim operations begin

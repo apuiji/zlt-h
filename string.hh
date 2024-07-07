@@ -11,6 +11,7 @@ namespace zlt {
 }
 
 namespace zlt::string {
+  // make operations begin
   /// @see zltStrMake
   static inline String make(const char *data = nullptr, size_t size = 0) noexcept {
     return zltStrMake(data, size);
@@ -26,7 +27,24 @@ namespace zlt::string {
   static inline String make(const char (&data)[N]) noexcept {
     return zltStrMake(data, N - 1);
   }
+  // make operations end
 
+  /// @see zltStrEnd
+  static inline String end(const String &s) noexcept {
+    return zltStrEnd(s);
+  }
+
+  /// @see zltStrEndBack
+  static inline String endBack(const String &s, size_t n) noexcept {
+    return zltStrEndBack(s, n);
+  }
+
+  /// @see zltStrForward
+  static inline String forward(const String &s, size_t n) noexcept {
+    return zltStrForward(s, n);
+  }
+
+  // comparisons begin
   /// @see zltStrEq
   static inline bool equals(const String &a, const String &b, strncmpFn *cmp = strncmp) noexcept {
     return zltStrEq(a, b, cmp);
@@ -47,11 +65,13 @@ namespace zlt::string {
     return zltStrEndsWith(src, ends, cmp);
   }
 
-  /// @see zltStrForward
-  static inline String forward(const String &s, size_t n) noexcept {
-    return zltStrForward(s, n);
+  /// @see zltStrSame
+  static inline size_t same(const String &a, const String &b, strncmpFn *cmp = strncmp) noexcept {
+    return zltStrSame(a, b, cmp);
   }
+  // comparisons end
 
+  // trim operations begin
   /// @see zltStrTrimStart
   static inline String trimStart(const String &s) noexcept {
     return zltStrTrimStart(s);
@@ -66,6 +86,7 @@ namespace zlt::string {
   static inline String trim(const String &s) noexcept {
     return zltStrTrim(s);
   }
+  // trim operations end
 
   /// @see zltStrToCase
   static inline void toCase(String &dest, const String &src, tocaseFn *tocase) noexcept {
@@ -76,6 +97,7 @@ namespace zlt::string {
     return zltStrToCase(s, s, tocase);
   }
 
+  // string to number operations begin
   using ToULongFn = zltStrToULongFn;
 
   /// @see zltStrToULong
@@ -128,6 +150,7 @@ namespace zlt::string {
     }
     return toUDouble(dest, src);
   }
+  // string to number operations end
 }
 
 namespace zlt::string::cmp_op {
