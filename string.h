@@ -78,6 +78,13 @@ typedef bool zltStrPredForFind(zltString src);
 
 zltString zltStrFindIf(zltString src, zltStrPredForFind *pred);
 zltString zltStrRevFindIf(zltString src, zltStrPredForFind *pred);
+
+// kmp begin
+/// @param pat length aleast 2
+void zltKMPNextMake(size_t *dest, zltString pat);
+
+zltString zltStrKMPFind(zltString src, zltString pat, size_t *nextv);
+// kmp end
 // find operations end
 
 /// usually toupper or tolower
