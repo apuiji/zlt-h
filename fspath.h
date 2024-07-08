@@ -5,21 +5,9 @@
 
 #include"ifcpp_begin.h"
 
-#ifdef WIN32
-
-#define zltFsPathSep "\\"
-
-#else
-
-#define zltFsPathSep "/"
-
-#endif
-
-#define zltFsPathSepLeng (sizeof(zltFsPathSep) - 1)
-
-zltString zltFsPathParent(zltString path);
-zltString zltFsPathName(zltString path);
-zltString zltFsPathCanonical(zltString path);
+zltString zltFsPathParent(zltString path, zltString sep);
+zltString zltFsPathName(zltString path, zltString sep);
+zltString zltFsPathCanonical(char *dest, zltString path);
 
 #include"ifcpp_end.h"
 

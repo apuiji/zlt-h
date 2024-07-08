@@ -74,6 +74,9 @@ static inline zltString zltStrTrim(zltString str) {
 // trim operations end
 
 // find operations begin
+zltString zltStrFindChar(zltString src, int c);
+zltString zltStrFindStr(zltString src, zltString str, strncmpFn *cmp);
+
 typedef bool zltStrPredForFind(zltString src);
 
 zltString zltStrFindIf(zltString src, zltStrPredForFind *pred);

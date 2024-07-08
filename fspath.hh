@@ -4,17 +4,18 @@
 #include"string.hh"
 
 namespace zlt::fspath {
-  static inline constexpr auto sep = zltFsPathSep;
-
-  static inline String parent(const String &path) noexcept {
-    return zltFsPathParent(path);
+  /// @see zltFsPathParent
+  static inline String parent(const String &path, const String &sep = string::make("/")) noexcept {
+    return zltFsPathParent(path, sep);
   }
 
-  static inline String name(const String &path) noexcept {
-    return zltFsPathName(path);
+  /// @see zltFsPathName
+  static inline String name(const String &path, const String &sep = string::make("/")) noexcept {
+    return zltFsPathName(path, sep);
   }
 
-  static inline String canonical(const String &path) noexcept {
-    return zltFsPathCanonical(path);
+  /// @see zltFsPathCanonical
+  static inline String canonical(char *dest, const String &path) noexcept {
+    return zltFsPathCanonical(dest, path);
   }
 }

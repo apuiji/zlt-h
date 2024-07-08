@@ -88,6 +88,42 @@ namespace zlt::string {
   }
   // trim operations end
 
+  // find operations begin
+  /// @see zltStrFindChar
+  static inline String findChar(const String &src, int c) noexcept {
+    return zltStrFindChar(src, c);
+  }
+
+  /// @see zltStrFindStr
+  static inline String findStr(const String &src, const String &str, strncmpFn *cmp = strncmp) noexcept {
+    return zltStrFindStr(src, str, cmp);
+  }
+
+  using PredForFind = zltStrPredForFind;
+
+  /// @see zltStrFindIf
+  static inline String findIf(const String &src, PredForFind *pred) noexcept {
+    return zltStrFindIf(src, pred);
+  }
+
+  /// @see zltStrRevFindIf
+  static inline String revFindIf(const String &src, PredForFind *pred) noexcept {
+    return zltStrRevFindIf(src, pred);
+  }
+
+  // kmp begin
+  /// @see zltKMPNextMake
+  static inline void kmpNextMake(size_t *dest, const String &pat) noexcept {
+    zltKMPNextMake(dest, pat);
+  }
+
+  /// @see zltStrKMPFind
+  String kmpFind(const String &src, const String &pat, size_t *nextv) noexcept {
+    return zltStrKMPFind(src, pat, nextv);
+  }
+  // kmp end
+  // find operations end
+
   /// @see zltStrToCase
   static inline void toCase(String &dest, const String &src, tocaseFn *tocase) noexcept {
     return zltStrToCase(dest, src, tocase);
