@@ -6,10 +6,10 @@
 
 #include"ifcpp_begin.h"
 
-struct zltStrBuild {
+typedef struct {
   zltStack dest;
   zltStack buf;
-};
+} zltStrBuild;
 
 static inline zltStrBuild zltStrBuildMake(zltStack dest, zltStack buf) {
   return (zltStrBuild) { .dest = dest, .buf = buf };
