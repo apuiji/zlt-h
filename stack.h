@@ -1,6 +1,7 @@
 #ifndef ZLT_STACK_H
 #define ZLT_STACK_H
 
+#include<stdlib.h>
 #include<string.h>
 #include"string.h"
 
@@ -14,6 +15,10 @@ typedef struct {
 
 static inline zltStack zltStackMake(void *data, size_t size) {
   return (zltStack) { .data = data, .top = data, .left = size };
+}
+
+static inline zltStack zltStackMakeAlloc(size_t size) {
+  return zltStackMake(malloc(size), size);
 }
 
 static inline size_t zltStackSize(const zltStack *k) {

@@ -6,12 +6,22 @@
 
 #include"ifcpp_begin.h"
 
-zltString zltStrBuildWrite(zltStack *dest, zltStack *buf, zltString src);
+struct zltStrBuild {
+  zltStack dest;
+  zltStack buf;
+};
 
-bool zltStrBuildFlush(zltStack *dest, zltStack *buf);
+static inline zltStrBuild zltStrBuildMake(zltStack dest, zltStack buf) {
+  return (zltStrBuild) { .dest = dest, .buf = buf };
+}
 
-static inline zltString zltStrBuildProd(const zltStack *k) {
-  return zltStrMake(k->data, zltStackSize(k));
+/// @return successfully write until
+zltString zltStrBuildWrite(zltStrBuild *sb, zltString src);
+
+bool zltStrBuildFlush(zltStrBuild *sb);
+
+static inline zltString zltStrBuildProd(const zltStrBuild *sb) {
+  return zltStrMake(sb->dest.data, zltStackSize(&sb->dest));
 }
 
 #include"ifcpp_end.h"

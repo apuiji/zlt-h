@@ -13,6 +13,11 @@ namespace zlt::stack {
     return zltStackMake(data, size);
   }
 
+  /// @see zltStackMakeAlloc
+  static inline Stack make(size_t size) noexcept {
+    return zltStackMakeAlloc(size);
+  }
+
   /// @see zltStackSize
   static inline size_t size(const Stack *k) noexcept {
     return zltStackSize(k);
