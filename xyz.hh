@@ -46,6 +46,7 @@ namespace zlt {
   template<class T, class ...U>
   concept AnyOf = isAnyOf<T, U...>;
 
+  // <=> comparison begin
   #ifdef __cpp_lib_three_way_comparison
 
   using Compare = std::compare_three_way;
@@ -60,6 +61,7 @@ namespace zlt {
   };
 
   #endif
+  // <=> comparison end
 
   /// overloaded function resolve
   template<class ...Args>

@@ -13,7 +13,7 @@ namespace zlt {
 namespace zlt::string {
   // make operations begin
   /// @see zltStrMake
-  static inline String make(const char *data = nullptr, size_t size = 0) noexcept {
+  static inline String make(const char *data, size_t size) noexcept {
     return zltStrMake(data, size);
   }
 
@@ -106,11 +106,6 @@ namespace zlt::string {
     return zltStrFindIf(src, pred);
   }
 
-  /// @see zltStrRevFindIf
-  static inline String revFindIf(const String &src, PredForFind *pred) noexcept {
-    return zltStrRevFindIf(src, pred);
-  }
-
   // kmp begin
   /// @see zltKMPNextMake
   static inline void kmpNextMake(size_t *dest, const String &pat) noexcept {
@@ -118,10 +113,27 @@ namespace zlt::string {
   }
 
   /// @see zltStrKMPFind
-  String kmpFind(const String &src, const String &pat, size_t *nextv) noexcept {
+  static inline String kmpFind(const String &src, const String &pat, size_t *nextv) noexcept {
     return zltStrKMPFind(src, pat, nextv);
   }
   // kmp end
+
+  // reverse find operations begin
+  /// @see zltStrRevFindChar
+  static inline String revFindChar(const String &src, int c) noexcept {
+    return zltStrRevFindChar(src, c);
+  }
+
+  /// @see zltStrRevFindStr
+  static inline String revFindStr(const String &src, const String &str, strncmpFn *cmp = strncmp) noexcept {
+    return zltStrRevFindStr(src, str, cmp);
+  }
+
+  /// @see zltStrRevFindIf
+  static inline String revFindIf(const String &src, PredForFind *pred) noexcept {
+    return zltStrRevFindIf(src, pred);
+  }
+  // reverse find operations end
   // find operations end
 
   /// @see zltStrToCase

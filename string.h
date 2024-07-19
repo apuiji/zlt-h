@@ -26,7 +26,7 @@ static inline zltString zltStrMakeBE(const char *begin, const char *end) {
   return zltStrMake(begin, end - begin);
 }
 
-/// @param data requires string constant literal
+/// @param data string constant literal
 #define zltStrMakeSta(data) zltStrMake(data, sizeof(data) - 1)
 // make operations end
 
@@ -53,11 +53,11 @@ static inline bool zltStrEq(zltString a, zltString b, strncmpFn *cmp) {
 int zltStrCmp(zltString a, zltString b, strncmpFn *cmp);
 
 static inline bool zltStrStartsWith(zltString src, zltString starts, strncmpFn *cmp) {
-  return src.size == starts.size && !cmp(src.data, starts.data, starts.size);
+  return src.size >= starts.size && !cmp(src.data, starts.data, starts.size);
 }
 
 static inline bool zltStrEndsWith(zltString src, zltString ends, strncmpFn *cmp) {
-  return src.size == ends.size && !cmp(src.data + src.size - ends.size, ends.data, ends.size);
+  return src.size >= ends.size && !cmp(src.data + src.size - ends.size, ends.data, ends.size);
 }
 
 /// @return count of same content between param a and param b
@@ -80,14 +80,20 @@ zltString zltStrFindStr(zltString src, zltString str, strncmpFn *cmp);
 typedef bool zltStrPredForFind(zltString src);
 
 zltString zltStrFindIf(zltString src, zltStrPredForFind *pred);
-zltString zltStrRevFindIf(zltString src, zltStrPredForFind *pred);
 
 // kmp begin
+/// @param dest kmp next values
 /// @param pat length aleast 2
 void zltKMPNextMake(size_t *dest, zltString pat);
 
 zltString zltStrKMPFind(zltString src, zltString pat, size_t *nextv);
 // kmp end
+
+// reverse find operations begin
+zltString zltStrRevFindChar(zltString src, int c);
+zltString zltStrRevFindStr(zltString src, zltString str, strncmpFn *cmp);
+zltString zltStrRevFindIf(zltString src, zltStrPredForFind *pred);
+// reverse find operations end
 // find operations end
 
 /// usually toupper or tolower

@@ -24,13 +24,18 @@ namespace zlt::strbuild {
     return write(sb, str.data, str.size);
   }
 
+  /// @see zltStrBuildUnwrite
+  static inline void unwrite(StrBuild &sb, size_t n) noexcept {
+    zltStrBuildUnwrite(&sb, n);
+  }
+
   /// @see zltStrBuildFlush
   static inline bool flush(StrBuild &sb) noexcept {
     return zltStrBuildFlush(&sb);
   }
 
   /// @see zltStrBuildProd
-  static inline String product(const Stack &k) noexcept {
-    return zltStrBuildProd(&k);
+  static inline String product(StrBuild &sb) noexcept {
+    return zltStrBuildProd(&sb);
   }
 }

@@ -11,18 +11,14 @@ typedef struct {
   zltStack buf;
 } zltStrBuild;
 
-static inline zltStrBuild zltStrBuildMake(zltStack dest, zltStack buf) {
-  return (zltStrBuild) { .dest = dest, .buf = buf };
-}
-
 /// @return successfully write until
 zltString zltStrBuildWrite(zltStrBuild *sb, zltString src);
 
+void zltStrBuildUnwrite(zltStrBuild *sb, size_t n);
+
 bool zltStrBuildFlush(zltStrBuild *sb);
 
-static inline zltString zltStrBuildProd(const zltStrBuild *sb) {
-  return zltStrMake(sb->dest.data, zltStackSize(&sb->dest));
-}
+zltString zltStrBuildProd(zltStrBuild *sb);
 
 #include"ifcpp_end.h"
 
